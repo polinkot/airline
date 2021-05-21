@@ -13,8 +13,8 @@ public class HelloController {
         return "Hello, world!";
     }
 
-    @GetMapping("/hello3")
-    public String hello3() {
-        return "Hello3, world!";
-    }
+//    @GetMapping("/hello3")
+//    public String hello3() {
+//        return "Hello3, world!";
+//    }
 }
