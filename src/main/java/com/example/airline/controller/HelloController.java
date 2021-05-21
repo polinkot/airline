@@ -13,8 +13,8 @@ public class HelloController {
         return "Hello, world!";
     }
 
-    @GetMapping("/test1")
-    public String hello1() {
+    @GetMapping("/test3")
+    public String hello3() {
         return "Hello, world!";
     }
 }
