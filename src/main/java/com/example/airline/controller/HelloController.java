@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/2222")
+@RequestMapping("/3333")
 public class HelloController {
 
     @GetMapping
