@@ -20,6 +20,6 @@ class HelloControllerTest {
     @Test
     public void testHello() throws Exception {
         this.mockMvc.perform(get("/7777")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, world!11111")));
+                .andExpect(content().string(containsString("Hello, world!8888")));
     }
 }
