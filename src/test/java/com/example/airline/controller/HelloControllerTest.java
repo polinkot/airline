@@ -19,7 +19,7 @@ class HelloControllerTest {
 
     @Test
     public void testHello() throws Exception {
-        this.mockMvc.perform(get("/8888")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Hello, world!9999")));
+        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Hello, world! AWS deploy")));
     }
 }

@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/8888")
+@RequestMapping("/")
 public class HelloController {
 
     @GetMapping
     public String hello() {
-        return "Hello, world!9999";
+        return "Hello, world! AWS deploy";
     }
 }
