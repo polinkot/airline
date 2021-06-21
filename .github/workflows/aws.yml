@@ -85,5 +85,5 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: airlineContainer-service
-        cluster: airlineClusterUpdate 
+        cluster: airlineCluster 
         wait-for-service-stability: true
