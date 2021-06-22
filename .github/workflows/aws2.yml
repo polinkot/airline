@@ -39,6 +39,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
     - name: Grant execute permission for buildImage
       run: chmod +x buildImage.sh
 
