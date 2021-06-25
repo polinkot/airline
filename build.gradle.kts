@@ -1,47 +1,22 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 plugins {
-	id("org.springframework.boot") version "2.5.0"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.5.0"
-    kotlin("plugin.spring") version "1.5.0"
+    kotlin("jvm") version Global.kotlin apply false
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-
-configurations {
-	compileOnly {
-		extendsFrom(configurations.annotationProcessor.get())
-	}
+/**
+ * Project configuration by properties and environment
+ */
+fun envConfig() = object : ReadOnlyProperty<Any?, String?> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): String? =
+            if (ext.has(property.name)) {
+                ext[property.name] as? String
+            } else {
+                System.getenv(property.name)
+            }
 }
 
-repositories {
-	mavenCentral()
-}
-
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
-}
-
-tasks.getByName<Jar>("jar") {
-	enabled = false
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
+subprojects {
+    group = "com.example.airline"
 }
