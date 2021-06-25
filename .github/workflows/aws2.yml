@@ -47,6 +47,12 @@ jobs:
       
     - name: Grant execute permission for pushImage
       run: chmod +x pushImage.sh
+      
+    - name: Grant execute permission for mainApp/buildImage
+      run: chmod +x mainApp/buildImage.sh
+      
+    - name: Grant execute permission for mainApp/pushImage
+      run: chmod +x mainApp/pushImage.sh
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
