@@ -26,41 +26,34 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-//	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
-//	jacoco
+	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
+	jacoco
 }
 
+detekt {
+	config = files("${project.parent?.projectDir}/detekt/config.yml")
+	buildUponDefaultConfig = true
+}
 
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+}
 
-//detekt {
-//	config = files("${project.parent?.projectDir}/detekt/config.yml")
-//	buildUponDefaultConfig = true
-//}
-
-//tasks.jacocoTestReport {
-//	dependsOn(tasks.test)
-//}
-
-//tasks.jacocoTestCoverageVerification {
-//	violationRules {
-//		rule {
-//			limit {
-//				minimum = "0.4".toBigDecimal()
-//			}
-//		}
-//	}
-//}
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.4".toBigDecimal()
+			}
+		}
+	}
+}
 
 tasks.test {
 	useJUnitPlatform()
-//	finalizedBy(tasks.jacocoTestReport)
-//	finalizedBy(tasks.jacocoTestCoverageVerification)
+	finalizedBy(tasks.jacocoTestReport)
+	finalizedBy(tasks.jacocoTestCoverageVerification)
 }
-
-
-
-
-
 
 dependencies {
 	// kotlin

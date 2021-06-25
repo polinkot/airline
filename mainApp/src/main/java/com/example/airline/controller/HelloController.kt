@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController
 class HelloController {
 
     @GetMapping("/")
-//    @Suppress("FunctionOnlyReturningConstant")
+    @Suppress("FunctionOnlyReturningConstant")
     fun hello(): String {
-        return "Hello, world!"
+        return "Hello, world!2222"
     }
 }

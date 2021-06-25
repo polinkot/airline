@@ -2,7 +2,7 @@ object Vers {
     // Spring
     const val springBoot = "2.3.1.RELEASE"
     const val springDependencyVersion = "1.0.9.RELEASE"
-//    const val detektVersion = "1.10.0"
+    const val detektVersion = "1.10.0"
 
 
     //Dependencies

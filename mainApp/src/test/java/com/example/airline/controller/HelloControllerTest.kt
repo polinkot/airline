@@ -20,6 +20,6 @@ class HelloControllerTest {
                 .andExpect { status { is2xxSuccessful } }
                 .andReturn()
                 .response.contentAsString
-                .apply { contains("Hello, world!") }
+                .apply { contains("Hello, world!2222") }
     }
 }
