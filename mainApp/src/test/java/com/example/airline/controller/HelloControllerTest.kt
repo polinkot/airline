@@ -16,10 +16,10 @@ class HelloControllerTest {
 
     @Test
     fun `when call main page hello should be shown`() {
-        mockMvc.get("/")
-                .andExpect { status { is2xxSuccessful } }
-                .andReturn()
-                .response.contentAsString
-                .apply { contains("Hello, world!") }
+        mockMvc.get("/") {
+        }.andExpect {
+            status { isOk }
+            content { string("Hello, world!") }
+        }
     }
 }
