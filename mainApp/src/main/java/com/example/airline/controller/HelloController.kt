@@ -11,4 +11,8 @@ class HelloController {
     fun hello(): String {
         return "Hello, world!"
     }
+
+    fun hello435345() {
+        4/0
+    }
 }

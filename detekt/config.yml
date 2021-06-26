@@ -91,3 +91,6 @@ naming:
 potential-bugs:
   LateinitUsage:
     active: false
+
+build:
+  maxIssues: 200 # break the build if more than ten weighted issues are found
