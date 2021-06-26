@@ -27,7 +27,7 @@ on:
   push:
     branches: [main]
 
-name: Deploy to Amazon ECS
+name: Deploy to Amazon ECS Production
 
 jobs:
   deploy:
@@ -41,8 +41,6 @@ jobs:
       
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
         
     - name: Grant execute permission for buildImage
       run: chmod +x buildImage.sh
