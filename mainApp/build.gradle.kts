@@ -10,7 +10,7 @@ buildscript {
 	dependencies {
 		classpath(Libs.kotlin_stdlib)
 		classpath(Libs.kotlin_jdk8)
-//		classpath(Libs.kotlin_reflect)
+		classpath(Libs.kotlin_reflect)
 	}
 }
 
@@ -26,46 +26,46 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
-	jacoco
+//	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
+//	jacoco
 }
 
-detekt {
-	config = files("${project.parent?.projectDir}/detekt/config.yml")
-	buildUponDefaultConfig = true
-}
-
-tasks.jacocoTestReport {
-	dependsOn(tasks.test)
-}
-
-tasks.jacocoTestCoverageVerification {
-	violationRules {
-		rule {
-			limit {
-				minimum = "0.8".toBigDecimal()
-			}
-		}
-	}
-}
-
-tasks.test {
-	useJUnitPlatform()
-	finalizedBy(tasks.jacocoTestReport)
-	finalizedBy(tasks.jacocoTestCoverageVerification)
-}
+//detekt {
+//	config = files("${project.parent?.projectDir}/detekt/config.yml")
+//	buildUponDefaultConfig = true
+//}
 
 dependencies {
 	// kotlin
 	implementation(kotlin("stdlib-jdk8"))
-//	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
 	// spring
 	implementation("org.springframework.boot:spring-boot-starter-web")
-//	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+}
+
+//tasks.jacocoTestReport {
+//	dependsOn(tasks.test)
+//}
+
+//tasks.jacocoTestCoverageVerification {
+//	violationRules {
+//		rule {
+//			limit {
+//				minimum = "0.8".toBigDecimal()
+//			}
+//		}
+//	}
+//}
+
+tasks.test {
+	useJUnitPlatform()
+//	finalizedBy(tasks.jacocoTestReport)
+//	finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 val compileKotlin: KotlinCompile by tasks

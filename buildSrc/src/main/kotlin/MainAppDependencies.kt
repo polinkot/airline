@@ -17,7 +17,7 @@ object Libs {
     //Dependencies
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Global.kotlin}"
     const val kotlin_jdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Global.kotlin}"
-//    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin}"
+    const val kotlin_reflect = "org.jetbrains.kotlin:kotlin-reflect:${Global.kotlin}"
 //    const val kotlinx_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Global.kotlin_coroutines}"
 //
 //    val slf4j_api = "org.slf4j:slf4j-api:${Vers.sl4j}"
