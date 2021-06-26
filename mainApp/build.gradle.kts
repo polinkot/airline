@@ -26,14 +26,14 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-//	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
+	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
 //	jacoco
 }
 
-//detekt {
-//	config = files("${project.parent?.projectDir}/detekt/config.yml")
-//	buildUponDefaultConfig = true
-//}
+detekt {
+	config = files("${project.parent?.projectDir}/detekt/config.yml")
+	buildUponDefaultConfig = true
+}
 
 dependencies {
 	// kotlin
