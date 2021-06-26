@@ -19,7 +19,7 @@ class HelloControllerTest {
         mockMvc.get("/") {
         }.andExpect {
             status { isOk }
-            content { string("Hello,wwww111 world!") }
+            content { string("Hello, world!") }
         }
     }
 }
