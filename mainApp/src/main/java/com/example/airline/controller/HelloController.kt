@@ -9,6 +9,6 @@ class HelloController {
     @GetMapping("/")
     @Suppress("FunctionOnlyReturningConstant")
     fun hello(): String {
-        return "Hello, world!"
+        return "Hello, world!" + (8/0)
     }
 }

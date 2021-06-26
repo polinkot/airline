@@ -71,6 +71,7 @@ tasks.test {
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
 	jvmTarget = "1.8"
+	allWarningsAsErrors = true
 }
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
