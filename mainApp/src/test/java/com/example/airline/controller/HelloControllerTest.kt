@@ -14,7 +14,7 @@ class HelloControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
 
-//    @Test
+    @Test
     fun `when call main page hello should be shown`() {
         mockMvc.get("/") {
         }.andExpect {
