@@ -1,8 +1,11 @@
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+val parentProjectDir = projectDir
+
 plugins {
     kotlin("jvm") version Global.kotlin apply false
+    id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
 //    id("com.github.ben-manes.versions") version "0.36.0"
 }
 
@@ -32,52 +35,52 @@ subprojects {
 
 allprojects {
 
-	configurations.all {
-		resolutionStrategy {
-			eachDependency {
-				requested.version?.contains("snapshot", true)?.let {
-					if (it) {
-						throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
-					}
-				}
-			}
-		}
-	}
+    configurations.all {
+        resolutionStrategy {
+            eachDependency {
+                requested.version?.contains("snapshot", true)?.let {
+                    if (it) {
+                        throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
+                    }
+                }
+            }
+        }
+    }
 
-	apply {
+    apply {
 //		plugin("java")
 //		plugin(Plugins.kotlin)
-		plugin("org.jetbrains.kotlin.jvm")
-//		plugin(Plugins.detekt)
-		plugin("jacoco")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("io.gitlab.arturbosch.detekt")
+        plugin("jacoco")
 //		plugin(Plugins.update_dependencies)
 //		plugin("com.github.ben-manes.versions")
 //		plugin(Plugins.owasp_dependencies)
-	}
+    }
 
-	repositories {
-		jcenter()
-		mavenCentral()
-		mavenLocal()
-	}
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
 
-//	detekt {
-//		config = files("$parentProjectDir/detekt/detekt-config.yml")
-//		buildUponDefaultConfig = true
-//		input = files("src/main/kotlin", "src/test/kotlin")
-//
-//		reports {
-//			html.enabled = true
-//		}
-//
-//		dependencies {
-//			detektPlugins("${Plugins.detekt_formatting}:${PluginVers.detekt_formatting}")
-//		}
-//	}
+    detekt {
+        config = files("$parentProjectDir/detekt/config.yml")
+        buildUponDefaultConfig = true
+        input = files("src/main/kotlin", "src/test/kotlin")
 
-	tasks {
+        reports {
+            html.enabled = true
+        }
 
-		val check = named<DefaultTask>("check")
+//        dependencies {
+//            detektPlugins("${"io.gitlab.arturbosch.detekt:detekt-formatting"}:${"1.16.0"}")
+//        }
+    }
+
+    tasks {
+
+        val check = named<DefaultTask>("check")
 
 //		val dependencyUpdate =
 //				named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
@@ -104,79 +107,79 @@ allprojects {
 //			}
 //		}
 
-		val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
-		val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
+        val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
+        val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
 
-		jacocoTestReport {
-			dependsOn(check)
-			finalizedBy(jacocoTestCoverageVerification)
-		}
+        jacocoTestReport {
+            dependsOn(check)
+            finalizedBy(jacocoTestCoverageVerification)
+        }
 
-		jacocoTestCoverageVerification {
-			dependsOn(jacocoTestReport)
-		}
+        jacocoTestCoverageVerification {
+            dependsOn(jacocoTestReport)
+        }
 
-		withType<JacocoCoverageVerification> {
-			violationRules {
-				rule {
-					limit {
-						minimum = BigDecimal("0.8")
-					}
-				}
-			}
+        withType<JacocoCoverageVerification> {
+            violationRules {
+                rule {
+                    limit {
+                        minimum = BigDecimal("0.8")
+                    }
+                }
+            }
 
-			afterEvaluate {
-				classDirectories.setFrom(files(classDirectories.files.map {
-					fileTree(it).apply {
-						exclude("com/example/airline/AirlineApplication*")
-					}
-				}))
-			}
-		}
+            afterEvaluate {
+                classDirectories.setFrom(files(classDirectories.files.map {
+                    fileTree(it).apply {
+                        exclude("com/example/airline/AirlineApplication*")
+                    }
+                }))
+            }
+        }
 
-		withType<JacocoReport> {
-			afterEvaluate {
-				classDirectories.setFrom(files(classDirectories.files.map {
-					fileTree(it).apply {
-						exclude("com/example/airline/AirlineApplication*")
-					}
-				}))
-			}
-		}
+        withType<JacocoReport> {
+            afterEvaluate {
+                classDirectories.setFrom(files(classDirectories.files.map {
+                    fileTree(it).apply {
+                        exclude("com/example/airline/AirlineApplication*")
+                    }
+                }))
+            }
+        }
 
-		check {
-			finalizedBy(jacocoTestReport)
+        check {
+            finalizedBy(jacocoTestReport)
 //			finalizedBy(dependencyUpdate)
-		}
+        }
 
-		val failOnWarning = project.properties["allWarningsAsErrors"] != null && project
-				.properties["allWarningsAsErrors"] == "true"
+        val failOnWarning = project.properties["allWarningsAsErrors"] != null && project
+                .properties["allWarningsAsErrors"] == "true"
 
-		withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-			kotlinOptions {
-				jvmTarget = "1.8"
-				jvmTarget = JavaVersion.VERSION_11.toString()
-				allWarningsAsErrors = failOnWarning
-				freeCompilerArgs = listOf("-Xjvm-default=enable")
-			}
-		}
+        withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+            kotlinOptions {
+                jvmTarget = "1.8"
+                jvmTarget = JavaVersion.VERSION_11.toString()
+                allWarningsAsErrors = failOnWarning
+                freeCompilerArgs = listOf("-Xjvm-default=enable")
+            }
+        }
 
-		withType<JavaCompile> {
-			options.compilerArgs.add("-Xlint:all")
-		}
+        withType<JavaCompile> {
+            options.compilerArgs.add("-Xlint:all")
+        }
 
-		withType<Test> {
-			useJUnitPlatform()
+        withType<Test> {
+            useJUnitPlatform()
 
-			testLogging {
-				events(
-						org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
-						org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-						org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
-				)
-				showStandardStreams = true
-				exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-			}
-		}
-	}
+            testLogging {
+                events(
+                        org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+                        org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+                        org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+                )
+                showStandardStreams = true
+                exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+            }
+        }
+    }
 }

@@ -26,14 +26,8 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-//	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
 //	id("com.github.ben-manes.versions") version "0.36.0"
 }
-
-//detekt {
-//	config = files("${project.parent?.projectDir}/detekt/config.yml")
-//	buildUponDefaultConfig = true
-//}
 
 //tasks {
 //	val dependencyUpdate =
