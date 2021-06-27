@@ -26,13 +26,49 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
-//	jacoco
+//	id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
+//	id("com.github.ben-manes.versions") version "0.36.0"
 }
 
-detekt {
-	config = files("${project.parent?.projectDir}/detekt/config.yml")
-	buildUponDefaultConfig = true
+//detekt {
+//	config = files("${project.parent?.projectDir}/detekt/config.yml")
+//	buildUponDefaultConfig = true
+//}
+
+//tasks {
+//	val dependencyUpdate =
+//			named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
+//
+//	//dependencyUpdate {
+//	//	revision = "release"
+//	//	outputFormatter = "txt"
+//	//	checkForGradleUpdate = true
+//	//	outputDir = "$buildDir/reports/dependencies"
+//	//	reportfileName = "updates"
+//	//}
+//
+//	dependencyUpdate.configure {
+//
+//		fun isNonStable(version: String): Boolean {
+//			val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+//			val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+//			val isStable = stableKeyword || regex.matches(version)
+////			return isStable.not()
+//			return false
+//		}
+//
+//		rejectVersionIf {
+//			isNonStable(candidate.version) && !isNonStable(currentVersion)
+//		}
+//	}
+//
+//	check {
+//		finalizedBy(dependencyUpdate)
+//	}
+//}
+
+tasks.test {
+	useJUnitPlatform()
 }
 
 dependencies {
@@ -40,32 +76,15 @@ dependencies {
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+//	implementation("com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2")
+
+
 	// spring
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
-}
-
-//tasks.jacocoTestReport {
-//	dependsOn(tasks.test)
-//}
-
-//tasks.jacocoTestCoverageVerification {
-//	violationRules {
-//		rule {
-//			limit {
-//				minimum = "0.8".toBigDecimal()
-//			}
-//		}
-//	}
-//}
-
-tasks.test {
-	useJUnitPlatform()
-//	finalizedBy(tasks.jacocoTestReport)
-//	finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 val compileKotlin: KotlinCompile by tasks
