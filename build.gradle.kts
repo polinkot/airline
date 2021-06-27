@@ -6,7 +6,7 @@ val parentProjectDir = projectDir
 plugins {
     kotlin("jvm") version Global.kotlin apply false
     id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
-//    id("com.github.ben-manes.versions") version "0.36.0"
+    id("com.github.ben-manes.versions") version "0.36.0"
 }
 
 /**
@@ -54,12 +54,12 @@ allprojects {
         plugin("io.gitlab.arturbosch.detekt")
         plugin("jacoco")
 //		plugin(Plugins.update_dependencies)
-//		plugin("com.github.ben-manes.versions")
+		plugin("com.github.ben-manes.versions")
 //		plugin(Plugins.owasp_dependencies)
     }
 
     repositories {
-        jcenter()
+//        jcenter()
         mavenCentral()
         mavenLocal()
     }
@@ -82,30 +82,30 @@ allprojects {
 
         val check = named<DefaultTask>("check")
 
-//		val dependencyUpdate =
-//				named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
-//
-//		dependencyUpdate {
-//			revision = "release"
-//			outputFormatter = "txt"
-//			checkForGradleUpdate = true
-//			outputDir = "$buildDir/reports/dependencies"
-//			reportfileName = "updates"
-//		}
-//
-//		dependencyUpdate.configure {
-//
-//			fun isNonStable(version: String): Boolean {
-//				val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
-//				val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-//				val isStable = stableKeyword || regex.matches(version)
-//				return isStable.not()
-//			}
-//
-//			rejectVersionIf {
-//				isNonStable(candidate.version) && !isNonStable(currentVersion)
-//			}
-//		}
+		val dependencyUpdate =
+				named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
+
+		dependencyUpdate {
+			revision = "release"
+			outputFormatter = "txt"
+			checkForGradleUpdate = true
+			outputDir = "$buildDir/reports/dependencies"
+			reportfileName = "updates"
+		}
+
+		dependencyUpdate.configure {
+
+			fun isNonStable(version: String): Boolean {
+				val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+				val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+				val isStable = stableKeyword || regex.matches(version)
+				return isStable.not()
+			}
+
+			rejectVersionIf {
+				isNonStable(candidate.version) && !isNonStable(currentVersion)
+			}
+		}
 
         val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
         val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
@@ -149,7 +149,7 @@ allprojects {
 
         check {
             finalizedBy(jacocoTestReport)
-//			finalizedBy(dependencyUpdate)
+			finalizedBy(dependencyUpdate)
         }
 
         val failOnWarning = project.properties["allWarningsAsErrors"] != null && project
