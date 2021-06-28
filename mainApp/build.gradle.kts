@@ -30,9 +30,6 @@ dependencies {
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-//	implementation("com.fasterxml.jackson.core:jackson-databind:2.12.0-rc2")
-
-
 	// spring
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
