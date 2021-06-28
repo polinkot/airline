@@ -35,16 +35,10 @@ subprojects {
 
 allprojects {
 
-    configurations.all {
-        resolutionStrategy {
-            eachDependency {
-                requested.version?.contains("snapshot", true)?.let {
-                    if (it) {
-                        throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
-                    }
-                }
-            }
-        }
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
     }
 
     apply {
@@ -58,12 +52,6 @@ allprojects {
 //		plugin(Plugins.owasp_dependencies)
     }
 
-    repositories {
-//        jcenter()
-        mavenCentral()
-        mavenLocal()
-    }
-
     detekt {
         config = files("$parentProjectDir/detekt/config.yml")
         buildUponDefaultConfig = true
@@ -72,16 +60,21 @@ allprojects {
         reports {
             html.enabled = true
         }
+    }
 
-//        dependencies {
-//            detektPlugins("${"io.gitlab.arturbosch.detekt:detekt-formatting"}:${"1.16.0"}")
-//        }
+    configurations.all {
+        resolutionStrategy {
+            eachDependency {
+                requested.version?.contains("snapshot", true)?.let {
+                    if (it) {
+                        throw GradleException("Snapshot found: ${requested.name} ${requested.version}")
+                    }
+                }
+            }
+        }
     }
 
     tasks {
-
-        val check = named<DefaultTask>("check")
-
 		val dependencyUpdate =
 				named<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask>("dependencyUpdates")
 
@@ -106,6 +99,8 @@ allprojects {
 				isNonStable(candidate.version) && !isNonStable(currentVersion)
 			}
 		}
+
+        val check = named<DefaultTask>("check")
 
         val jacocoTestReport = named<JacocoReport>("jacocoTestReport")
         val jacocoTestCoverageVerification = named<JacocoCoverageVerification>("jacocoTestCoverageVerification")
@@ -148,8 +143,8 @@ allprojects {
         }
 
         check {
-            finalizedBy(jacocoTestReport)
 			finalizedBy(dependencyUpdate)
+            finalizedBy(jacocoTestReport)
         }
 
         val failOnWarning = project.properties["allWarningsAsErrors"] != null && project
@@ -158,9 +153,7 @@ allprojects {
         withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
             kotlinOptions {
                 jvmTarget = "1.8"
-                jvmTarget = JavaVersion.VERSION_11.toString()
                 allWarningsAsErrors = failOnWarning
-                freeCompilerArgs = listOf("-Xjvm-default=enable")
             }
         }
 

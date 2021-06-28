@@ -2,7 +2,7 @@
 set -e
 
 echo Gradle build
-./gradlew build
+./gradlew build -PallWarningsAsErrors=true
 
 imageTag=$1
 if [ -z "$1" ]
