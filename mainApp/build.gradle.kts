@@ -2,8 +2,8 @@ buildscript {
 	repositories {
 		mavenCentral()
 		mavenLocal()
-
 	}
+
 	dependencies {
 		classpath(Libs.kotlin_stdlib)
 		classpath(Libs.kotlin_jdk8)
@@ -23,10 +23,6 @@ plugins {
 	id("org.springframework.boot") version Vers.springBoot
 	id("io.spring.dependency-management") version Vers.springDependencyVersion
 	kotlin("plugin.spring") version Global.kotlin
-}
-
-tasks.test {
-	useJUnitPlatform()
 }
 
 dependencies {
