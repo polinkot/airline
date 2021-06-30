@@ -1,37 +1,10 @@
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
-
 val parentProjectDir = projectDir
 
 plugins {
-    kotlin("jvm") version Global.kotlin apply false
-    id("io.gitlab.arturbosch.detekt") version Vers.detektVersion
-    id("com.github.ben-manes.versions") version "0.36.0"
+    id(Plugins.kotlin) version PluginVers.kotlin apply true
+	id(Plugins.detekt) version PluginVers.detekt
+	id(Plugins.update_dependencies) version PluginVers.update_dependencies
 }
-
-/**
- * Project configuration by properties and environment
- */
-fun envConfig() = object : ReadOnlyProperty<Any?, String?> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): String? =
-            if (ext.has(property.name)) {
-                ext[property.name] as? String
-            } else {
-                System.getenv(property.name)
-            }
-}
-
-subprojects {
-    group = "com.example.airline"
-}
-
-
-//plugins {
-//	id(Plugins.kotlin) version PluginVers.kotlin apply true
-//	id(Plugins.detekt) version PluginVers.detekt
-//	id(Plugins.update_dependencies) version PluginVers.update_dependencies
-//	id(Plugins.owasp_dependencies) version PluginVers.owasp_dependencies
-//}
 
 allprojects {
 
@@ -42,14 +15,10 @@ allprojects {
     }
 
     apply {
-//		plugin("java")
-//		plugin(Plugins.kotlin)
-        plugin("org.jetbrains.kotlin.jvm")
-        plugin("io.gitlab.arturbosch.detekt")
+		plugin(Plugins.kotlin)
+        plugin(Plugins.detekt)
         plugin("jacoco")
-//		plugin(Plugins.update_dependencies)
-		plugin("com.github.ben-manes.versions")
-//		plugin(Plugins.owasp_dependencies)
+		plugin(Plugins.update_dependencies)
     }
 
     detekt {
@@ -59,6 +28,10 @@ allprojects {
 
         reports {
             html.enabled = true
+        }
+
+        dependencies {
+            detektPlugins("${Plugins.detekt_formatting}:${PluginVers.detekt_formatting}")
         }
     }
 
@@ -157,22 +130,8 @@ allprojects {
             }
         }
 
-        withType<JavaCompile> {
-            options.compilerArgs.add("-Xlint:all")
-        }
-
         withType<Test> {
             useJUnitPlatform()
-
-            testLogging {
-                events(
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
-                )
-                showStandardStreams = true
-                exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-            }
         }
     }
 }

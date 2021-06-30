@@ -67,6 +67,8 @@ formatting:
     active: false
   NoLineBreakBeforeAssignment:
     active: false
+  FinalNewline:
+    active: false
 
 
 comments:
