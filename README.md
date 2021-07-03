@@ -28,11 +28,12 @@
 Production стенд размещается на Amazon Elastic Container Service Fargate (ECS).  
 При появлении нового докер-образа в репозитории ECR создаётся новый инстанс приложения в ECS.  
 Ему назначается динамический IP. Посмотреть новый IP можно в списке задач кластера ECS.
-Кластер arn:aws:ecs:us-east-2:342011919275:cluster/airlineCluster.
+Кластер arn:aws:ecs:us-east-2:342011919275:cluster/airlineCluster. 
 
 ### Проверка запуска приложения на production стенде
 
     http://<latest ECS IP>:8080
+    Сейчас http://18.222.131.161:8080/
     
 Если всё успешно собралось, приложение выводит строку "Hello, world!".    
 
