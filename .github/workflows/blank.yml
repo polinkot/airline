@@ -6,6 +6,8 @@ name: CI88888
 on:
   check_run:
     types: [created, rerequested, completed]
+  check_suite:
+    types: [requested, rerequested, completed]
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
