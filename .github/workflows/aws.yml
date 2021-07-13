@@ -27,7 +27,7 @@ on:
   push:
     branches: [main]
 
-name: Deploy to Amazon ECS
+name: (Inactive) Deploy to Amazon ECS
 
 jobs:
   deploy:
