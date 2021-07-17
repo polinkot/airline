@@ -1,12 +1,12 @@
 val parentProjectDir = projectDir
 
 plugins {
-    id(Plugins.kotlin) version PluginVers.kotlin apply true
+    id(Plugins.kotlin) version PluginVers.kotlin apply false
 	id(Plugins.detekt) version PluginVers.detekt
 	id(Plugins.update_dependencies) version PluginVers.update_dependencies
 }
 
-allprojects {
+subprojects {
 
     repositories {
         jcenter()
