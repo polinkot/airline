@@ -5,6 +5,10 @@ plugins {
 }
 
 dependencies {
+
+	implementation(project(":leasing:domain"))
+	implementation(project(":leasing:web"))
+
 	// kotlin
 	implementation(kotlin("stdlib-jdk8"))
 	implementation(Libs.kotlin_reflect)
