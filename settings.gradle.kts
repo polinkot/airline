@@ -1,3 +1,3 @@
 rootProject.name = "airline"
 
-include(":mainApp")
+include(":application")
