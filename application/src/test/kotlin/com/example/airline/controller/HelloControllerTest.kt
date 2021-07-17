@@ -18,7 +18,7 @@ class HelloControllerTest {
     fun `when call main page hello should be shown`() {
         mockMvc.get("/") {
         }.andExpect {
-            status { isOk }
+            status { isOk() }
             content { string("Hello, world!") }
         }
     }

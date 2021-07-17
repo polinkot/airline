@@ -38,7 +38,8 @@ allprojects {
     configurations.all {
         resolutionStrategy {
             eachDependency {
-                requested.version?.contains("(?i)snapshot|rc".toRegex())?.let {
+//                requested.version?.contains("(?i)snapshot|rc".toRegex())?.let {
+                requested.version?.contains("(?i)snapshot".toRegex())?.let {
                     if (it) {
                         throw GradleException("Snapshot or RC found: ${requested.name} ${requested.version}")
                     }
