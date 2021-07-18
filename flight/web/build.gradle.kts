@@ -1,3 +1,9 @@
+tasks {
+    withType<Jar> {
+        archiveBaseName.set("flight-web")
+    }
+}
+
 dependencies {
     // project
 //    implementation(project(":common:types"))
