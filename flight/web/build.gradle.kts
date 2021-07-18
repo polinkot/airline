@@ -1,8 +1,8 @@
 dependencies {
     // project
 //    implementation(project(":common:types"))
-    implementation(project(":leasing:domain"))
-    implementation(project(":leasing:usecase"))
+    implementation(project(":flight:domain"))
+    implementation(project(":flight:usecase"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

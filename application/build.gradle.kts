@@ -7,7 +7,19 @@ plugins {
 dependencies {
 
 	implementation(project(":leasing:domain"))
+	implementation(project(":leasing:usecase"))
+	implementation(project(":leasing:persistence"))
 	implementation(project(":leasing:web"))
+
+	implementation(project(":flight:domain"))
+	implementation(project(":flight:usecase"))
+	implementation(project(":flight:persistence"))
+	implementation(project(":flight:web"))
+
+	implementation(project(":maintenance:domain"))
+	implementation(project(":maintenance:usecase"))
+	implementation(project(":maintenance:persistence"))
+	implementation(project(":maintenance:web"))
 
 	// kotlin
 	implementation(kotlin("stdlib-jdk8"))

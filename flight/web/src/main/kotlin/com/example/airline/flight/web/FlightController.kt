@@ -1,14 +1,14 @@
-package com.example.airline.leasing.web
+package com.example.airline.flight.web
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class LeasingController {
+class FlightController {
 
-    @GetMapping("/leasing")
+    @GetMapping("/flight")
     @Suppress("FunctionOnlyReturningConstant")
     fun hello(): String {
-        return "Hello, leasing!"
+        return "Hello, flight!"
     }
 }
