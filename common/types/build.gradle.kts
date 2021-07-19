@@ -1,8 +1,4 @@
 dependencies {
-    // project
-    implementation(project(":leasing:domain"))
-    implementation(project(":common:types"))
-
     // kotlin
     implementation(Libs.kotlin_jdk8)
     implementation(Libs.kotlin_reflect)

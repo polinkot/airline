@@ -1,7 +1,7 @@
 rootProject.name = "airline"
 
 include(":application")
-//include(":common:types")
+include(":common:types")
 
 include(":leasing:domain")
 include(":leasing:usecase")

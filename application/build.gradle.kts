@@ -6,6 +6,9 @@ plugins {
 
 dependencies {
 
+	// project
+	implementation(project(":common:types"))
+
 	implementation(project(":leasing:domain"))
 	implementation(project(":leasing:usecase"))
 	implementation(project(":leasing:persistence"))

@@ -1,6 +1,6 @@
 dependencies {
     // project
-//    implementation(project(":common:types"))
+    implementation(project(":common:types"))
     implementation(project(":maintenance:domain"))
     implementation(project(":maintenance:usecase"))
 

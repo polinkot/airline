@@ -1,7 +1,7 @@
 dependencies {
     // project
     implementation(project(":maintenance:domain"))
-//    implementation(project(":common:types"))
+    implementation(project(":common:types"))
 
     // kotlin
     implementation(Libs.kotlin_jdk8)

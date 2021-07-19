@@ -6,7 +6,7 @@ tasks {
 
 dependencies {
     // project
-//    implementation(project(":common:types"))
+    implementation(project(":common:types"))
     implementation(project(":flight:domain"))
     implementation(project(":flight:usecase"))
 
