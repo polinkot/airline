@@ -1,4 +1,4 @@
-package com.example.airline.controller
+package com.example.airline.app.controller
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

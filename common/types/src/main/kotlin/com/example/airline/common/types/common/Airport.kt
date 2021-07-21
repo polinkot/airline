@@ -11,7 +11,6 @@ data class Airport internal constructor(
         val city: String,
         val code: String
 ) : ValueObject {
-
     companion object {
         fun from(city: String, code: String): Either<CreateAirportError, Airport> {
             return when {

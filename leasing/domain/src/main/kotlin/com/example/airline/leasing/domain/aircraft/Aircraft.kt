@@ -2,13 +2,14 @@ package com.example.airline.leasing.domain.aircraft
 
 import com.example.airline.common.types.base.AggregateRoot
 import com.example.airline.common.types.base.Version
+import com.example.airline.common.types.common.Manufacturer
 import com.example.airline.leasing.domain.seatingmap.SeatingMap
 import java.time.OffsetDateTime
 
 @Suppress("LongParameterList")
 class Aircraft internal constructor(
         id: AircraftId,
-        val manufacturer: AircraftManufacturer,
+        val manufacturer: Manufacturer,
         val payload: AircraftPayload,
         val releaseDate: OffsetDateTime,
         val registrationNumber: AircraftRegistrationNumber,
@@ -19,7 +20,7 @@ class Aircraft internal constructor(
 
     companion object {
         fun create(idGenerator: AircraftIdGenerator,
-                   manufacturer: AircraftManufacturer,
+                   manufacturer: Manufacturer,
                    payload: AircraftPayload,
                    releaseDate: OffsetDateTime,
                    registrationNumber: AircraftRegistrationNumber,
