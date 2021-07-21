@@ -11,4 +11,4 @@ if [ -z "$1" ]
     imageTag=latest
 fi
 
-(exec "${BASH_SOURCE%/*}/mainApp/buildImage.sh" $imageTag )
+(exec "${BASH_SOURCE%/*}/application/buildImage.sh" $imageTag )
