@@ -8,15 +8,15 @@ import com.example.airline.common.types.error.BusinessError
 
 data class AircraftPayload internal constructor(val value: Int) : ValueObject {
     companion object {
-        fun from(number: Int): Either<NegativeAircraftPayloadError, AircraftPayload> =
-                if (number > 0) {
-                    AircraftPayload(number).right()
+        fun from(payload: Int): Either<NonPositiveAircraftPayloadError, AircraftPayload> =
+                if (payload > 0) {
+                    AircraftPayload(payload).right()
                 } else {
-                    NegativeAircraftPayloadError.left()
+                    NonPositiveAircraftPayloadError.left()
                 }
     }
 }
 
-object NegativeAircraftPayloadError : BusinessError
+object NonPositiveAircraftPayloadError : BusinessError
 
 

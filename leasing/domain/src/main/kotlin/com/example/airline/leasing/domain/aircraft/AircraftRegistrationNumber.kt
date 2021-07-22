@@ -8,9 +8,9 @@ import com.example.airline.common.types.error.BusinessError
 
 data class AircraftRegistrationNumber internal constructor(val value: String) : ValueObject {
     companion object {
-        fun from(name: String): Either<EmptyAircraftRegistrationNumberError, AircraftRegistrationNumber> =
-                if (name.isNotBlank()) {
-                    AircraftRegistrationNumber(name).right()
+        fun from(registrationNumber: String): Either<EmptyAircraftRegistrationNumberError, AircraftRegistrationNumber> =
+                if (registrationNumber.isNotBlank()) {
+                    AircraftRegistrationNumber(registrationNumber).right()
                 } else {
                     EmptyAircraftRegistrationNumberError.left()
                 }

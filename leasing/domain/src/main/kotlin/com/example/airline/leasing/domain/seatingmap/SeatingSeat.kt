@@ -9,9 +9,9 @@ import com.example.airline.common.types.error.BusinessError
 data class SeatingSeat internal constructor(val value: String) : ValueObject {
 
     companion object {
-        fun from(name: String): Either<EmptySeatingSeatError, SeatingSeat> =
-                if (name.isNotBlank()) {
-                    SeatingSeat(name).right()
+        fun from(seat: String): Either<EmptySeatingSeatError, SeatingSeat> =
+                if (seat.isNotBlank()) {
+                    SeatingSeat(seat).right()
                 } else {
                     EmptySeatingSeatError.left()
                 }

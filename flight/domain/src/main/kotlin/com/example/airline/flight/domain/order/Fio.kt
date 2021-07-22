@@ -6,15 +6,12 @@ import arrow.core.right
 import com.example.airline.common.types.base.ValueObject
 import com.example.airline.flight.domain.order.CreateFioError.EmptyString
 
-data class Fio internal constructor(
-        val value: String
-) : ValueObject {
-
+data class Fio internal constructor(val value: String) : ValueObject {
     companion object {
-        fun from(value: String): Either<CreateFioError, Fio> {
+        fun from(fio: String): Either<CreateFioError, Fio> {
             return when {
-                value.isBlank() -> EmptyString.left()
-                else -> Fio(value).right()
+                fio.isBlank() -> EmptyString.left()
+                else -> Fio(fio).right()
             }
         }
     }

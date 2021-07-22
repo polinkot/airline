@@ -9,13 +9,13 @@ import com.example.airline.common.types.error.BusinessError
 data class SeatingRow internal constructor(val value: Int) : ValueObject {
 
     companion object {
-        fun from(row: Int): Either<NegativeSeatingRowError, SeatingRow> =
+        fun from(row: Int): Either<NonPositiveSeatingRowError, SeatingRow> =
                 if (row > 0) {
                     SeatingRow(row).right()
                 } else {
-                    NegativeSeatingRowError.left()
+                    NonPositiveSeatingRowError.left()
                 }
     }
 }
 
-object NegativeSeatingRowError : BusinessError
+object NonPositiveSeatingRowError : BusinessError

@@ -21,11 +21,11 @@ data class Email internal constructor(
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+")
 
-        fun from(value: String): Either<CreateEmailError, Email> {
+        fun from(email: String): Either<CreateEmailError, Email> {
             return when {
-                value.isBlank() -> EmptyString.left()
-                !EMAIL_ADDRESS_PATTERN.matcher(value).matches() -> WrongFormat.left()
-                else -> Email(value).right()
+                email.isBlank() -> EmptyString.left()
+                !EMAIL_ADDRESS_PATTERN.matcher(email).matches() -> WrongFormat.left()
+                else -> Email(email).right()
             }
         }
     }

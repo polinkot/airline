@@ -11,10 +11,10 @@ data class Passport internal constructor(
 ) : ValueObject {
 
     companion object {
-        fun from(value: String): Either<CreatePassportError, Passport> {
+        fun from(passport: String): Either<CreatePassportError, Passport> {
             return when {
-                value.isBlank() -> EmptyString.left()
-                else -> Passport(value).right()
+                passport.isBlank() -> EmptyString.left()
+                else -> Passport(passport).right()
             }
         }
     }
