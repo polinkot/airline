@@ -2,7 +2,7 @@ package com.example.airline.flight.domain.flight
 
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
-import com.example.airline.flight.domain.aircraft.Aircraft
+import com.example.airline.flight.domain.aircraft.AircraftId
 import java.time.OffsetDateTime
 
 @Suppress("LongParameterList")
@@ -12,7 +12,7 @@ object FlightRestorer {
             departureAirport: Airport,
             arrivalAirport: Airport,
             flightDate: OffsetDateTime,
-            aircraft: Aircraft,
+            aircraftId: AircraftId,
             version: Version
     ): Flight {
         return Flight(
@@ -20,7 +20,7 @@ object FlightRestorer {
                 departureAirport = departureAirport,
                 arrivalAirport = arrivalAirport,
                 flightDate = flightDate,
-                aircraft = aircraft,
+                aircraftId = aircraftId,
                 version = version
         )
     }

@@ -7,7 +7,7 @@ import com.example.airline.common.types.base.AggregateRoot
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.error.BusinessError
-import com.example.airline.flight.domain.aircraft.Aircraft
+import com.example.airline.flight.domain.aircraft.AircraftId
 import com.example.airline.flight.domain.flight.FlightAnnounceError.AircraftIsNotAvailableOnTime
 import com.example.airline.flight.domain.flight.FlightAnnounceError.AirportNotAllowFlightOnTime
 import java.time.OffsetDateTime
@@ -18,7 +18,7 @@ class Flight internal constructor(
         val departureAirport: Airport,
         val arrivalAirport: Airport,
         val flightDate: OffsetDateTime,
-        val aircraft: Aircraft,
+        val aircraftId: AircraftId,
         version: Version
 ) : AggregateRoot<FlightId>(id, version) {
     companion object {
@@ -26,11 +26,11 @@ class Flight internal constructor(
                    departureAirport: Airport,
                    arrivalAirport: Airport,
                    flightDate: OffsetDateTime,
-                   aircraft: Aircraft,
+                   aircraftId: AircraftId,
                    aircraftIsAvailableOnTime: AircraftIsAvailableOnTime,
                    airportAllowsFlightOnTime: AirportAllowsFlightOnTime
         ): Either<FlightAnnounceError, Flight> {
-            if (!aircraftIsAvailableOnTime.check(aircraft.id, flightDate)) {
+            if (!aircraftIsAvailableOnTime.check(aircraftId, flightDate)) {
                 return AircraftIsNotAvailableOnTime.left()
             }
 
@@ -43,7 +43,7 @@ class Flight internal constructor(
                     departureAirport = departureAirport,
                     arrivalAirport = arrivalAirport,
                     flightDate = flightDate,
-                    aircraft = aircraft,
+                    aircraftId = aircraftId,
                     version = Version.new()
             ).apply {
                 addEvent(FlightAnnouncedDomainEvent(flightId = this.id))

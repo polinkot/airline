@@ -3,7 +3,7 @@ package com.example.airline.leasing.domain.aircraft
 import com.example.airline.common.types.base.AggregateRoot
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Manufacturer
-import com.example.airline.leasing.domain.seatingmap.SeatingMap
+import com.example.airline.leasing.domain.seatingmap.SeatingMapId
 import java.time.OffsetDateTime
 
 @Suppress("LongParameterList")
@@ -14,7 +14,7 @@ class Aircraft internal constructor(
         val releaseDate: OffsetDateTime,
         val registrationNumber: AircraftRegistrationNumber,
         val contractNumber: AircraftContractNumber,
-        val seatingMap: SeatingMap,
+        val seatingMapId: SeatingMapId,
         version: Version
 ) : AggregateRoot<AircraftId>(id, version) {
 
@@ -25,7 +25,7 @@ class Aircraft internal constructor(
                    releaseDate: OffsetDateTime,
                    registrationNumber: AircraftRegistrationNumber,
                    contractNumber: AircraftContractNumber,
-                   seatingMap: SeatingMap
+                   seatingMapId: SeatingMapId
         ): Aircraft {
             return Aircraft(
                     id = idGenerator.generate(),
@@ -34,7 +34,7 @@ class Aircraft internal constructor(
                     releaseDate = releaseDate,
                     registrationNumber = registrationNumber,
                     contractNumber = contractNumber,
-                    seatingMap = seatingMap,
+                    seatingMapId = seatingMapId,
                     version = Version.new()
             ).apply {
                 addEvent(AircraftCreatedDomainEvent(aircraftId = this.id))
