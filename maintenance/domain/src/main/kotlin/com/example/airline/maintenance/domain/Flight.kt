@@ -30,16 +30,23 @@ class Flight internal constructor(
                     id = id,
                     departureAirport = departureAirport,
                     version = Version.new()
-            )
+            ).apply {
+                addEvent(FlightRegisteredDomainEvent(flightId = this.id))
+            }
         }
     }
 
     fun depart() = changeState(FlightState.DEPARTURED, FlightDeparturedDomainEvent(id))
 
     fun arrive(arrivalAirport: Airport, duration: FlightDuration) {
-        this.arrivalAirport = arrivalAirport
-        this.duration = duration
-        changeState(FlightState.ARRIVED, FlightArrivedDomainEvent(id))
+        if (state == FlightState.ARRIVED) {
+            return
+        }
+
+        if (changeState(FlightState.ARRIVED, FlightArrivedDomainEvent(id)).isRight()) {
+            this.arrivalAirport = arrivalAirport
+            this.duration = duration
+        }
     }
 
     private fun changeState(newState: FlightState, event: DomainEvent): Either<InvalidState, Unit> {
@@ -58,7 +65,7 @@ class Flight internal constructor(
 enum class FlightState(
         private val nextStates: Set<FlightState> = emptySet()
 ) {
-    ARRIVED,
+    ARRIVED(nextStates = emptySet()),
     DEPARTURED(nextStates = setOf(ARRIVED)),
     IDLE(nextStates = setOf(DEPARTURED));
 

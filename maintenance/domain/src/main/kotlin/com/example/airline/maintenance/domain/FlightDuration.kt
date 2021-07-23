@@ -8,14 +8,14 @@ import com.example.airline.common.types.error.BusinessError
 
 data class FlightDuration internal constructor(val value: Int) : ValueObject {
     companion object {
-        fun from(duration: Int): Either<NegativeFlightDurationError, FlightDuration> =
+        fun from(duration: Int): Either<NonPositiveFlightDurationError, FlightDuration> =
                 if (duration > 0) {
                     FlightDuration(duration).right()
                 } else {
-                    NegativeFlightDurationError.left()
+                    NonPositiveFlightDurationError.left()
                 }
     }
 }
 
-object NegativeFlightDurationError : BusinessError
+object NonPositiveFlightDurationError : BusinessError
 

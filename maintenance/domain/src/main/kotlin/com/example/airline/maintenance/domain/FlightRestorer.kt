@@ -8,8 +8,9 @@ object FlightRestorer {
     fun restore(
             id: FlightId,
             departureAirport: Airport,
-            arrivalAirport: Airport,
+            arrivalAirport: Airport?,
             duration: FlightDuration,
+            state: FlightState,
             version: Version
     ): Flight {
         return Flight(
