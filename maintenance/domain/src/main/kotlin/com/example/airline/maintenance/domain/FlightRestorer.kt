@@ -3,6 +3,7 @@ package com.example.airline.maintenance.domain
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
 
+@Suppress("LongParameterList")
 object FlightRestorer {
 
     fun restore(
