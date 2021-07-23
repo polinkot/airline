@@ -8,10 +8,10 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 
 class FlightTest {
-    val id = flightId()
 
     @Test
     fun `register flight - success`() {
+        val id = flightId()
         val departureAirport = airport()
 
         val result = Flight.register(id = id, departureAirport = departureAirport)
