@@ -2,6 +2,9 @@ package com.example.airline.flight.domain.order
 
 import com.example.airline.flight.domain.ticket.TicketId
 
+/**
+ * Билет плюс данные пассажира - ФИО, паспорт.
+ */
 class OrderItem constructor(
         val ticketId: TicketId,
         val fio: Fio,
