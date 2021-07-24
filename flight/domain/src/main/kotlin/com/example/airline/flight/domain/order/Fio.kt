@@ -4,13 +4,13 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.example.airline.common.types.base.ValueObject
-import com.example.airline.flight.domain.order.CreateFioError.EmptyString
+import com.example.airline.flight.domain.order.CreateFioError.EmptyFio
 
 data class Fio internal constructor(val value: String) : ValueObject {
     companion object {
         fun from(fio: String): Either<CreateFioError, Fio> {
             return when {
-                fio.isBlank() -> EmptyString.left()
+                fio.isBlank() -> EmptyFio.left()
                 else -> Fio(fio).right()
             }
         }
@@ -18,5 +18,5 @@ data class Fio internal constructor(val value: String) : ValueObject {
 }
 
 sealed class CreateFioError {
-    object EmptyString : CreateFioError()
+    object EmptyFio : CreateFioError()
 }

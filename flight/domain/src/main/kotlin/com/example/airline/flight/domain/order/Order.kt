@@ -79,7 +79,7 @@ enum class OrderState(
         private val nextStates: Set<OrderState> = emptySet()
 ) {
     CANCELLED(active = false),
-    PAID(active = true, nextStates = setOf(CANCELLED)),
+    PAID(active = true),
     WAITING_FOR_PAYMENT(active = true, nextStates = setOf(PAID, CANCELLED));
 
     fun canChangeTo(state: OrderState) = nextStates.contains(state)
