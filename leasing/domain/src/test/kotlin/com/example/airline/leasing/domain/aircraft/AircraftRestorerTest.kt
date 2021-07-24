@@ -15,7 +15,7 @@ class AircraftRestorerTest {
         val releaseDate = OffsetDateTime.now()
         val contractNumber = contractNumber()
         val registrationNumber = registrationNumber()
-        val seatingMapId = seatingMapId()
+        val seatMapId = seatMapId()
         val version = version()
 
         val aircraft = AircraftRestorer.restore(
@@ -25,7 +25,7 @@ class AircraftRestorerTest {
                 releaseDate = releaseDate,
                 contractNumber = contractNumber,
                 registrationNumber = registrationNumber,
-                seatingMapId = seatingMapId,
+                seatMapId = seatMapId,
                 version = version
         )
 
@@ -35,7 +35,7 @@ class AircraftRestorerTest {
         aircraft.releaseDate shouldBe releaseDate
         aircraft.contractNumber shouldBe contractNumber
         aircraft.registrationNumber shouldBe registrationNumber
-        aircraft.seatingMapId shouldBe seatingMapId
+        aircraft.seatMapId shouldBe seatMapId
         aircraft.version shouldBe version
 
         aircraft.popEvents().shouldBeEmpty()

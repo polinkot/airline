@@ -2,7 +2,7 @@ package com.example.airline.leasing.domain.aircraft
 
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Manufacturer
-import com.example.airline.leasing.domain.seatingmap.SeatingMapId
+import com.example.airline.leasing.domain.seatmap.SeatMapId
 import java.time.OffsetDateTime
 
 @Suppress("LongParameterList")
@@ -14,7 +14,7 @@ object AircraftRestorer {
             releaseDate: OffsetDateTime,
             registrationNumber: AircraftRegistrationNumber,
             contractNumber: AircraftContractNumber,
-            seatingMapId: SeatingMapId,
+            seatMapId: SeatMapId,
             version: Version
     ): Aircraft {
         return Aircraft(
@@ -24,7 +24,7 @@ object AircraftRestorer {
                 releaseDate = releaseDate,
                 registrationNumber = registrationNumber,
                 contractNumber = contractNumber,
-                seatingMapId = seatingMapId,
+                seatMapId = seatMapId,
                 version = version)
     }
 }

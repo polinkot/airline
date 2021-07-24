@@ -3,7 +3,7 @@ package com.example.airline.leasing.domain.aircraft
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Manufacturer
-import com.example.airline.leasing.domain.seatingmap.*
+import com.example.airline.leasing.domain.seatmap.*
 import kotlin.random.Random
 
 fun version() = Version.new()
@@ -34,32 +34,32 @@ fun registrationNumber(): AircraftRegistrationNumber {
     return result.b
 }
 
-fun seatingMapId() = SeatingMapId(Random.nextLong())
+fun seatMapId() = SeatMapId(Random.nextLong())
 
-fun seatingMapName(): SeatingMapName {
-    val result = SeatingMapName.from("SeatingMapName ${Random.nextInt()}")
-    check(result is Either.Right<SeatingMapName>)
+fun seatMapName(): SeatMapName {
+    val result = SeatMapName.from("SeatMapName ${Random.nextInt()}")
+    check(result is Either.Right<SeatMapName>)
     return result.b
 }
 
-fun seatingRow(value: Int = Random.nextInt(20, 5000)): SeatingRow {
-    val result = SeatingRow.from(value)
-    check(result is Either.Right<SeatingRow>)
+fun seatRow(value: Int = Random.nextInt(20, 5000)): Row {
+    val result = Row.from(value)
+    check(result is Either.Right<Row>)
     return result.b
 }
 
-fun seatingSeat(): SeatingSeat {
-    val result = SeatingSeat.from("SeatingSeat ${Random.nextInt()}")
-    check(result is Either.Right<SeatingSeat>)
+fun seatLetter(): Letter {
+    val result = Letter.from("SeatLetter ${Random.nextInt()}")
+    check(result is Either.Right<Letter>)
     return result.b
 }
 
-fun seating(
-        row: SeatingRow = seatingRow(),
-        seat: SeatingSeat = seatingSeat()
-): Seating {
-    return Seating(
+fun seat(
+        row: Row = seatRow(),
+        letter: Letter = seatLetter()
+): Seat {
+    return Seat(
             row = row,
-            seat = seat
+            letter = letter
     )
 }
