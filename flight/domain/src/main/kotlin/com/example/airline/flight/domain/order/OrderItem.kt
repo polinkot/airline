@@ -7,7 +7,7 @@ import com.example.airline.flight.domain.ticket.TicketId
  */
 class OrderItem constructor(
         val ticketId: TicketId,
-        val fio: Fio,
+        val fullName: FullName,
         val passport: Passport
 ) {
     override fun equals(other: Any?): Boolean {

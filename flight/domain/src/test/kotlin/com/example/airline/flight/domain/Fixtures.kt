@@ -55,9 +55,9 @@ fun email(): Email {
     return result.b
 }
 
-fun fio(): Fio {
-    val result = Fio.from("Fio ${Random.nextInt()}")
-    check(result is Either.Right<Fio>)
+fun fullName(): FullName {
+    val result = FullName.from("FullName ${Random.nextInt()}")
+    check(result is Either.Right<FullName>)
     return result.b
 }
 
@@ -69,12 +69,12 @@ fun passport(): Passport {
 
 fun orderItem(
         ticketId: TicketId = ticketId(),
-        fio: Fio = fio(),
+        fullName: FullName = fullName(),
         passport: Passport = passport()
 ): OrderItem {
     return OrderItem(
             ticketId = ticketId,
-            fio = fio,
+            fullName = fullName,
             passport = passport
     )
 }
