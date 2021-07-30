@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
+import java.time.Duration
 
 class FlightTest {
 
@@ -19,7 +20,7 @@ class FlightTest {
         result.id shouldBe id
         result.departureAirport shouldBe departureAirport
         result.arrivalAirport shouldBe null
-        result.duration shouldBe FlightDuration(0)
+        result.duration shouldBe Duration.ZERO
         result.state shouldBe FlightState.IDLE
 
         result.popEvents() shouldContainExactly listOf(FlightRegisteredDomainEvent(id))

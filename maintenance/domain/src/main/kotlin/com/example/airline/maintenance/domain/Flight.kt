@@ -8,6 +8,7 @@ import com.example.airline.common.types.base.DomainEvent
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.error.BusinessError
+import java.time.Duration
 
 data class FlightId(val value: Long)
 
@@ -17,7 +18,7 @@ class Flight internal constructor(
         version: Version
 ) : DomainEntity<FlightId>(id, version) {
     var arrivalAirport: Airport? = null
-    var duration: FlightDuration = FlightDuration(0)
+    var duration: Duration = Duration.ZERO
 
     var state: FlightState = FlightState.IDLE
         internal set
@@ -38,7 +39,7 @@ class Flight internal constructor(
 
     fun depart() = changeState(FlightState.DEPARTURED, FlightDeparturedDomainEvent(id))
 
-    fun arrive(arrivalAirport: Airport, duration: FlightDuration) {
+    fun arrive(arrivalAirport: Airport, duration: Duration) {
         if (state == FlightState.ARRIVED) {
             return
         }

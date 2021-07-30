@@ -3,6 +3,7 @@ package com.example.airline.maintenance.domain
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
+import java.time.Duration
 import kotlin.random.Random
 
 fun flightId() = FlightId(Random.nextLong())
@@ -15,15 +16,13 @@ fun airport(): Airport {
     return result.b
 }
 
-fun duration(value: Int = Random.nextInt(20, 5000)): FlightDuration {
-    val result = FlightDuration.from(value)
-    check(result is Either.Right<FlightDuration>)
-    return result.b
+fun duration(value: Long = Random.nextLong(1, 30)): Duration {
+    return Duration.ofHours(value)
 }
 
 fun flight(
         arrivalAirport: Airport? = null,
-        duration: FlightDuration = FlightDuration(0),
+        duration: Duration = Duration.ZERO,
         state: FlightState = FlightState.IDLE
 ): Flight {
     return FlightRestorer.restore(
