@@ -1,5 +1,7 @@
 package com.example.airline.maintenance.domain
 
+import com.example.airline.maintenance.domain.FlightState.ARRIVED
+import com.example.airline.maintenance.domain.FlightState.REGISTERED
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
@@ -21,39 +23,14 @@ class FlightTest {
         result.departureAirport shouldBe departureAirport
         result.arrivalAirport shouldBe null
         result.duration shouldBe Duration.ZERO
-        result.state shouldBe FlightState.IDLE
+        result.state shouldBe REGISTERED
 
         result.popEvents() shouldContainExactly listOf(FlightRegisteredDomainEvent(id))
     }
 
     @Test
-    fun `depart - success`() {
-        val flight = flight(state = FlightState.IDLE)
-        flight.depart()
-        flight.state shouldBe FlightState.DEPARTURED
-        flight.popEvents() shouldContainExactly listOf(FlightDeparturedDomainEvent(flight.id))
-    }
-
-    @Test
-    fun `depart - already`() {
-        val flight = flight(state = FlightState.DEPARTURED)
-        flight.depart()
-        flight.state shouldBe FlightState.DEPARTURED
-        flight.popEvents().shouldBeEmpty()
-    }
-
-    @ParameterizedTest
-    @EnumSource(names = ["ARRIVED"])
-    fun `depart - invalid state`(state: FlightState) {
-        val flight = flight(state = state)
-        flight.depart()
-        flight.state shouldBe state
-        flight.popEvents().shouldBeEmpty()
-    }
-
-    @Test
     fun `arrive - success`() {
-        val flight = flight(state = FlightState.DEPARTURED)
+        val flight = flight(state = REGISTERED)
 
         val newAirport = airport()
         val newDuration = duration()
@@ -61,7 +38,7 @@ class FlightTest {
 
         flight.arrivalAirport shouldBe newAirport
         flight.duration shouldBe newDuration
-        flight.state shouldBe FlightState.ARRIVED
+        flight.state shouldBe ARRIVED
         flight.popEvents() shouldContainExactly listOf(FlightArrivedDomainEvent(flight.id))
     }
 
@@ -69,18 +46,18 @@ class FlightTest {
     fun `arrive - already`() {
         val originalArrivalAirport = airport()
         val originalDuration = duration()
-        val flight = flight(originalArrivalAirport, originalDuration, state = FlightState.ARRIVED)
+        val flight = flight(originalArrivalAirport, originalDuration, state = ARRIVED)
 
         flight.arrive(airport(), duration())
 
         flight.arrivalAirport shouldBe originalArrivalAirport
         flight.duration shouldBe originalDuration
-        flight.state shouldBe FlightState.ARRIVED
+        flight.state shouldBe ARRIVED
         flight.popEvents().shouldBeEmpty()
     }
 
     @ParameterizedTest
-    @EnumSource(names = ["IDLE"])
+    @EnumSource(names = ["ARRIVED"])
     fun `arrive - invalid state`(state: FlightState) {
         val flight = flight(state = state)
         val originalArrivalAirport = flight.arrivalAirport
