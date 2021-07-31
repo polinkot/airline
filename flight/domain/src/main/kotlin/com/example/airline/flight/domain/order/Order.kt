@@ -4,12 +4,13 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.example.airline.common.types.base.AggregateRoot
-import com.example.airline.common.types.base.DomainEvent
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Email
 import com.example.airline.common.types.error.BusinessError
 import com.example.airline.flight.domain.order.OrderCreationError.NoTicketsError
 import com.example.airline.flight.domain.order.OrderCreationError.TicketsNotAvailableError
+import com.example.airline.flight.domain.order.OrderState.CREATED
+import com.example.airline.flight.domain.order.OrderState.PAID
 import com.example.airline.flight.domain.ticket.Price
 import java.time.OffsetDateTime
 
@@ -22,7 +23,7 @@ class Order internal constructor(
         version: Version
 ) : AggregateRoot<OrderId>(id, version) {
 
-    var state: OrderState = OrderState.WAITING_FOR_PAYMENT
+    var state: OrderState = CREATED
         internal set
 
     companion object {
@@ -55,32 +56,21 @@ class Order internal constructor(
         }
     }
 
-    fun pay() = changeState(OrderState.PAID, OrderPaidDomainEvent(id))
-
-    fun cancel() = changeState(OrderState.CANCELLED, OrderCancelledDomainEvent(id))
-
-    private fun changeState(newState: OrderState, event: DomainEvent): Either<InvalidState, Unit> {
-        return when {
-            state == newState -> Unit.right()
-            state.canChangeTo(newState) -> {
-                state = newState
-                addEvent(event)
-                Unit.right()
-            }
-            else -> InvalidState.left()
+    fun pay() {
+        if (!state.canChangeTo(PAID)) {
+            return
         }
-    }
 
-    fun isActive(): Boolean = state.active
+        state = PAID
+        addEvent(OrderPaidDomainEvent(id))
+    }
 }
 
 enum class OrderState(
-        val active: Boolean,
         private val nextStates: Set<OrderState> = emptySet()
 ) {
-    CANCELLED(active = false),
-    PAID(active = true),
-    WAITING_FOR_PAYMENT(active = true, nextStates = setOf(PAID, CANCELLED));
+    PAID(nextStates = emptySet()),
+    CREATED(nextStates = setOf(PAID));
 
     fun canChangeTo(state: OrderState) = nextStates.contains(state)
 }
@@ -89,5 +79,3 @@ sealed class OrderCreationError : BusinessError {
     object NoTicketsError : OrderCreationError()
     object TicketsNotAvailableError : OrderCreationError()
 }
-
-object InvalidState : BusinessError

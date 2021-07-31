@@ -9,6 +9,7 @@ import com.example.airline.common.types.common.Manufacturer
 import com.example.airline.flight.domain.aircraft.AircraftId
 import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.order.*
+import com.example.airline.flight.domain.order.OrderState.CREATED
 import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.TicketId
 import java.math.BigDecimal
@@ -80,7 +81,7 @@ fun orderItem(
 }
 
 fun order(
-        state: OrderState = OrderState.WAITING_FOR_PAYMENT,
+        state: OrderState = CREATED,
         orderItems: Set<OrderItem> = setOf(orderItem()),
 ): Order {
     return OrderRestorer.restore(
