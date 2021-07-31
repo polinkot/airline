@@ -21,9 +21,9 @@ object OrderRestorer {
                 created = created,
                 email = email,
                 orderItems = orderItems,
+                price = price,
                 version = version
         ).apply {
-            this.price = price
             this.state = state
         }
     }

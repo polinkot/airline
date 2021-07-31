@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test
 class AircraftTest {
 
     @Test
-    fun `create aircraft - success`() {
+    fun `receiveInfo aircraft - success`() {
         val id = aircraftId()
         val manufacturer = manufacturer()
         val seatsCount = count()
 
-        val result = Aircraft.create(id = id,
+        val result = Aircraft.receiveInfo(id = id,
                 manufacturer = manufacturer,
                 seatsCount = seatsCount)
 

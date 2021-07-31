@@ -9,6 +9,7 @@ import com.example.airline.common.types.common.Manufacturer
 import com.example.airline.flight.domain.aircraft.AircraftId
 import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.order.*
+import com.example.airline.flight.domain.order.OrderState.CREATED
 import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.TicketId
 import java.math.BigDecimal
@@ -38,7 +39,7 @@ fun count(value: Int = Random.nextInt(20, 5000)): Count {
 }
 
 fun airport(): Airport {
-    val result = Airport.from("Airport ${Random.nextInt()}", "code_${Random.nextInt()}")
+    val result = Airport.from("Airport ${Random.nextInt()}")
     check(result is Either.Right<Airport>)
     return result.b
 }
@@ -55,9 +56,9 @@ fun email(): Email {
     return result.b
 }
 
-fun fio(): Fio {
-    val result = Fio.from("Fio ${Random.nextInt()}")
-    check(result is Either.Right<Fio>)
+fun fullName(): FullName {
+    val result = FullName.from("FullName ${Random.nextInt()}")
+    check(result is Either.Right<FullName>)
     return result.b
 }
 
@@ -69,18 +70,18 @@ fun passport(): Passport {
 
 fun orderItem(
         ticketId: TicketId = ticketId(),
-        fio: Fio = fio(),
+        fullName: FullName = fullName(),
         passport: Passport = passport()
 ): OrderItem {
     return OrderItem(
             ticketId = ticketId,
-            fio = fio,
+            fullName = fullName,
             passport = passport
     )
 }
 
 fun order(
-        state: OrderState = OrderState.WAITING_FOR_PAYMENT,
+        state: OrderState = CREATED,
         orderItems: Set<OrderItem> = setOf(orderItem()),
 ): Order {
     return OrderRestorer.restore(
