@@ -39,7 +39,7 @@ fun count(value: Int = Random.nextInt(20, 5000)): Count {
 }
 
 fun airport(): Airport {
-    val result = Airport.from("Airport ${Random.nextInt()}", "code_${Random.nextInt()}")
+    val result = Airport.from("Airport ${Random.nextInt()}")
     check(result is Either.Right<Airport>)
     return result.b
 }

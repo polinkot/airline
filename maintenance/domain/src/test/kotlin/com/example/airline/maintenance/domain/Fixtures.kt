@@ -12,7 +12,7 @@ fun flightId() = FlightId(Random.nextLong())
 fun version() = Version.new()
 
 fun airport(): Airport {
-    val result = Airport.from("Airport ${Random.nextInt()}", "code_${Random.nextInt()}")
+    val result = Airport.from("Airport ${Random.nextInt()}")
     check(result is Either.Right<Airport>)
     return result.b
 }
