@@ -18,9 +18,9 @@ class Order internal constructor(
         val created: OffsetDateTime,
         val email: Email,
         val orderItems: Set<OrderItem>,
+        val price: Price,
         version: Version
 ) : AggregateRoot<OrderId>(id, version) {
-    var price: Price = Price.zero()
 
     var state: OrderState = OrderState.WAITING_FOR_PAYMENT
         internal set
@@ -47,9 +47,9 @@ class Order internal constructor(
                     created = OffsetDateTime.now(),
                     email = email,
                     orderItems = orderItems,
+                    price = priceProvider.getPrice(ticketIds),
                     version = Version.new()
             ).apply {
-                price = priceProvider.getPrice(ticketIds)
                 addEvent(OrderCreatedDomainEvent(id))
             }.right()
         }
