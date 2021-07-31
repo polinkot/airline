@@ -15,9 +15,9 @@ class Aircraft internal constructor(
 ) : DomainEntity<AircraftId>(id, version) {
 
     companion object {
-        fun create(id: AircraftId,
-                   manufacturer: Manufacturer,
-                   seatsCount: Count
+        fun receiveInfo(id: AircraftId,
+                        manufacturer: Manufacturer,
+                        seatsCount: Count
         ): Aircraft {
             return Aircraft(
                     id = id,
