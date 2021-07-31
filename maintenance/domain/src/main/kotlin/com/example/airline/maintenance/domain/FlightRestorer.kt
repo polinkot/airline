@@ -2,6 +2,7 @@ package com.example.airline.maintenance.domain
 
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
+import java.time.Duration
 
 @Suppress("LongParameterList")
 object FlightRestorer {
@@ -10,7 +11,7 @@ object FlightRestorer {
             id: FlightId,
             departureAirport: Airport,
             arrivalAirport: Airport?,
-            duration: FlightDuration,
+            duration: Duration,
             state: FlightState,
             version: Version
     ): Flight {

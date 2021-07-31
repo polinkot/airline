@@ -1,6 +1,5 @@
-package com.example.airline.flight.domain.order
+package com.example.airline.leasing.domain.aircraft
 
-import com.example.airline.flight.domain.order.CreateFioError.EmptyFio
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.shouldBe
@@ -8,22 +7,22 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
-internal class FioTest {
+internal class SeatTest {
 
     @Test
-    fun `create fio - success`() {
-        val fio = "Some string"
-        val result = Fio.from(fio)
+    fun `create seat - success`() {
+        val code = "5B"
+        val result = Seat.from(code)
 
         result shouldBeRight {
-            it.value shouldBe fio
+            it.code shouldBe code
         }
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
-    fun `create fio - empty string`(input: String) {
-        val result = Fio.from(input)
-        result shouldBeLeft EmptyFio
+    fun `create seat - empty string`(input: String) {
+        val result = Seat.from(input)
+        result shouldBeLeft EmptySeatError
     }
 }

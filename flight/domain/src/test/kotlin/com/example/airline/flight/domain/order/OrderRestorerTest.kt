@@ -1,6 +1,7 @@
 package com.example.airline.flight.domain.order
 
 import com.example.airline.flight.domain.*
+import com.example.airline.flight.domain.order.OrderState.CREATED
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -15,7 +16,7 @@ class OrderRestorerTest {
         val orderItem = orderItem()
         val orderItems = setOf(orderItem)
         val price = price()
-        val state = OrderState.WAITING_FOR_PAYMENT
+        val state = CREATED
         val version = version()
 
         val order = OrderRestorer.restore(
