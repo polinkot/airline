@@ -20,7 +20,7 @@ class AircraftTest {
         val releaseDate = OffsetDateTime.now()
         val registrationNumber = registrationNumber()
         val contractNumber = contractNumber()
-        val seatMapId = seatMapId()
+        val seats = seats()
 
         val result = Aircraft.create(idGenerator = idGenerator,
                 manufacturer = manufacturer,
@@ -28,7 +28,7 @@ class AircraftTest {
                 releaseDate = releaseDate,
                 registrationNumber = registrationNumber,
                 contractNumber = contractNumber,
-                seatMapId = seatMapId)
+                seats = seats)
 
         result.id shouldBe id
         result.manufacturer shouldBe manufacturer
@@ -36,7 +36,7 @@ class AircraftTest {
         result.releaseDate shouldBe releaseDate
         result.registrationNumber shouldBe registrationNumber
         result.contractNumber shouldBe contractNumber
-        result.seatMapId shouldBe seatMapId
+        result.seats shouldBe seats
 
         result.popEvents() shouldContainExactly listOf(AircraftCreatedDomainEvent(id))
     }
