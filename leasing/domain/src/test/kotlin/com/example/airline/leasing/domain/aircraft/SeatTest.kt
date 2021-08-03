@@ -15,7 +15,7 @@ internal class SeatTest {
         val result = Seat.from(code)
 
         result shouldBeRight {
-            it.code shouldBe code
+            it.value shouldBe code
         }
     }
 
