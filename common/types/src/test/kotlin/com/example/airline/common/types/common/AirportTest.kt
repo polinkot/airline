@@ -16,7 +16,7 @@ internal class AirportTest {
         val result = Airport.from(code)
 
         result shouldBeRight {
-            it.code shouldBe code
+            it.value shouldBe code
         }
     }
 

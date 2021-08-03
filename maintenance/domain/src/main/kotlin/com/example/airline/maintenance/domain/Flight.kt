@@ -1,12 +1,14 @@
 package com.example.airline.maintenance.domain
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.example.airline.common.types.base.DomainEntity
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
+import com.example.airline.common.types.error.BusinessError
 import com.example.airline.maintenance.domain.FlightState.ARRIVED
 import java.time.Duration
-
-data class FlightId(val value: Long)
 
 class Flight internal constructor(
         id: FlightId,
@@ -33,15 +35,16 @@ class Flight internal constructor(
         }
     }
 
-    fun arrive(arrivalAirport: Airport, duration: Duration) {
+    fun arrive(arrivalAirport: Airport, duration: Duration): Either<InvalidState, Unit> {
         if (!state.canChangeTo(ARRIVED)) {
-            return
+            return InvalidState.left()
         }
 
         state = ARRIVED
         addEvent(FlightArrivedDomainEvent(id))
         this.arrivalAirport = arrivalAirport
         this.duration = duration
+        return Unit.right()
     }
 }
 
@@ -53,3 +56,5 @@ enum class FlightState(
 
     fun canChangeTo(state: FlightState) = nextStates.contains(state)
 }
+
+object InvalidState : BusinessError
