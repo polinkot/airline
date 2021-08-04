@@ -1,9 +1,11 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import arrow.core.Either
 import arrow.core.extensions.either.apply.tupled
 import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.common.CreateAirportError
+import com.example.airline.maintenance.domain.FlightId
+import com.example.airline.maintenance.domain.NonPositiveFlightIdError
 
 data class RegisterFlightRequest internal constructor(
         val id: FlightId,

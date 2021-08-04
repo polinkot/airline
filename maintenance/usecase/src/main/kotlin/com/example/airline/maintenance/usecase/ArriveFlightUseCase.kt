@@ -1,11 +1,12 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.rightIfNotNull
 import com.example.airline.common.types.common.Airport
-import com.example.airline.maintenance.domain.ArriveFlightError.FlightNotFound
-import com.example.airline.maintenance.domain.ArriveFlightError.InvalidFlightState
+import com.example.airline.maintenance.domain.FlightId
+import com.example.airline.maintenance.usecase.ArriveFlightError.FlightNotFound
+import com.example.airline.maintenance.usecase.ArriveFlightError.InvalidFlightState
 import java.time.Duration
 
 class ArriveFlightUseCase(

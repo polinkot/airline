@@ -1,7 +1,8 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
-import com.example.airline.maintenance.domain.ArriveFlightError.FlightNotFound
-import com.example.airline.maintenance.domain.ArriveFlightError.InvalidFlightState
+import com.example.airline.maintenance.domain.*
+import com.example.airline.maintenance.usecase.ArriveFlightError.FlightNotFound
+import com.example.airline.maintenance.usecase.ArriveFlightError.InvalidFlightState
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly

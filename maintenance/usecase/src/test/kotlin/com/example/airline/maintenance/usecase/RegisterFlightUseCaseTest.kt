@@ -1,4 +1,4 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe

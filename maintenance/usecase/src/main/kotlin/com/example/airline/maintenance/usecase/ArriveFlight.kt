@@ -1,7 +1,8 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import arrow.core.Either
 import com.example.airline.common.types.common.Airport
+import com.example.airline.maintenance.domain.FlightId
 import java.time.Duration
 
 interface ArriveFlight {

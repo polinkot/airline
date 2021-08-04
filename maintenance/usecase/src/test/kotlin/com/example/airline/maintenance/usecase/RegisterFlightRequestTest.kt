@@ -1,4 +1,4 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight

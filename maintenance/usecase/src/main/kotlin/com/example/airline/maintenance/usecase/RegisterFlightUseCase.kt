@@ -1,4 +1,7 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
+
+import com.example.airline.maintenance.domain.Flight
+import com.example.airline.maintenance.domain.FlightId
 
 class RegisterFlightUseCase(
         private val flightPersister: FlightPersister

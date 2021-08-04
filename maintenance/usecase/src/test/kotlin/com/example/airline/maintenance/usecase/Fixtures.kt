@@ -1,8 +1,9 @@
-package com.example.airline.maintenance.domain
+package com.example.airline.maintenance.usecase
 
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
+import com.example.airline.maintenance.domain.*
 import java.time.Duration
 import java.util.*
 import kotlin.random.Random
