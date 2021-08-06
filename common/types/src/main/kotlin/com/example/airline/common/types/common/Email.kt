@@ -4,8 +4,8 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.example.airline.common.types.base.ValueObject
-import com.example.airline.common.types.common.CreateEmailError.EmptyString
-import com.example.airline.common.types.common.CreateEmailError.WrongFormat
+import com.example.airline.common.types.common.CreateEmailError.EmptyEmailError
+import com.example.airline.common.types.common.CreateEmailError.WrongFormatEmaiError
 import java.util.regex.Pattern
 
 data class Email internal constructor(
@@ -23,8 +23,8 @@ data class Email internal constructor(
 
         fun from(email: String): Either<CreateEmailError, Email> {
             return when {
-                email.isBlank() -> EmptyString.left()
-                !EMAIL_ADDRESS_PATTERN.matcher(email).matches() -> WrongFormat.left()
+                email.isBlank() -> EmptyEmailError.left()
+                !EMAIL_ADDRESS_PATTERN.matcher(email).matches() -> WrongFormatEmaiError.left()
                 else -> Email(email).right()
             }
         }
@@ -32,6 +32,6 @@ data class Email internal constructor(
 }
 
 sealed class CreateEmailError {
-    object EmptyString : CreateEmailError()
-    object WrongFormat : CreateEmailError()
+    object EmptyEmailError : CreateEmailError()
+    object WrongFormatEmaiError : CreateEmailError()
 }

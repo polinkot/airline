@@ -92,7 +92,7 @@ subprojects {
             violationRules {
                 rule {
                     limit {
-//                        minimum = BigDecimal("0.8")
+                        minimum = BigDecimal("0.8")
                     }
                 }
             }
@@ -100,7 +100,7 @@ subprojects {
             afterEvaluate {
                 classDirectories.setFrom(files(classDirectories.files.map {
                     fileTree(it).apply {
-                        exclude("com/example/airline/AirlineApplication*")
+                        exclude("com/example/airline/app/*")
                     }
                 }))
             }
@@ -110,7 +110,7 @@ subprojects {
             afterEvaluate {
                 classDirectories.setFrom(files(classDirectories.files.map {
                     fileTree(it).apply {
-                        exclude("com/example/airline/AirlineApplication*")
+                        exclude("com/example/airline/app/*")
                     }
                 }))
             }

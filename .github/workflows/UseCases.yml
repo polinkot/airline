@@ -27,7 +27,7 @@ on:
   push:
     branches: [UseCases]
 
-name: Deploy to Amazon ECS Production
+name: UseCases Deploy to Amazon
 
 jobs:
   deploy:

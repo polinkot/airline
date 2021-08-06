@@ -3,7 +3,6 @@ package com.example.airline.leasing.domain.aircraft
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Manufacturer
-import com.example.airline.leasing.domain.seatmap.*
 import kotlin.random.Random
 
 fun version() = Version.new()
@@ -34,32 +33,15 @@ fun registrationNumber(): AircraftRegistrationNumber {
     return result.b
 }
 
-fun seatMapId() = SeatMapId(Random.nextLong())
-
-fun seatMapName(): SeatMapName {
-    val result = SeatMapName.from("SeatMapName ${Random.nextInt()}")
-    check(result is Either.Right<SeatMapName>)
+fun seat(seat : String): Seat {
+    val result = Seat.from(seat)
+    check(result is Either.Right<Seat>)
     return result.b
 }
 
-fun seatRow(value: Int = Random.nextInt(20, 5000)): Row {
-    val result = Row.from(value)
-    check(result is Either.Right<Row>)
-    return result.b
-}
-
-fun seatLetter(): Letter {
-    val result = Letter.from("SeatLetter ${Random.nextInt()}")
-    check(result is Either.Right<Letter>)
-    return result.b
-}
-
-fun seat(
-        row: Row = seatRow(),
-        letter: Letter = seatLetter()
-): Seat {
-    return Seat(
-            row = row,
-            letter = letter
-    )
+fun seats(): Set<Seat> {
+    return setOf(seat("1A"), seat("1B"), seat("1C"),
+            seat("2A"), seat("2B"), seat("2C"),
+            seat("3A"), seat("3B"), seat("3C"),
+            seat("4A"), seat("4B"), seat("4C"))
 }
