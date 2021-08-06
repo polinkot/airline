@@ -1,9 +1,13 @@
 package com.example.airline.flight.domain.aircraft
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.example.airline.common.types.base.DomainEntity
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Count
 import com.example.airline.common.types.common.Manufacturer
+import com.example.airline.common.types.error.BusinessError
 
 data class AircraftId(val value: Long)
 
@@ -18,7 +22,11 @@ class Aircraft internal constructor(
         fun receiveInfo(id: AircraftId,
                         manufacturer: Manufacturer,
                         seatsCount: Count
-        ): Aircraft {
+        ): Either<EmptySeatMapError, Aircraft> {
+            if (seatsCount == Count(0)) {
+                return EmptySeatMapError.left()
+            }
+
             return Aircraft(
                     id = id,
                     manufacturer = manufacturer,
@@ -26,7 +34,9 @@ class Aircraft internal constructor(
                     version = Version.new()
             ).apply {
                 addEvent(AircraftInfoReceivedDomainEvent(aircraftId = this.id))
-            }
+            }.right()
         }
     }
 }
+
+object EmptySeatMapError : BusinessError
