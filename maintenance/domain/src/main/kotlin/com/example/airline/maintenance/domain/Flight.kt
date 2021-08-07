@@ -35,9 +35,9 @@ class Flight internal constructor(
         }
     }
 
-    fun arrive(arrivalAirport: Airport, duration: Duration): Either<InvalidState, Unit> {
+    fun arrive(arrivalAirport: Airport, duration: Duration): Either<ArriveFlightError, Unit> {
         if (!state.canChangeTo(ARRIVED)) {
-            return InvalidState.left()
+            return ArriveFlightError.left()
         }
 
         state = ARRIVED
@@ -57,4 +57,4 @@ enum class FlightState(
     fun canChangeTo(state: FlightState) = nextStates.contains(state)
 }
 
-object InvalidState : BusinessError
+object ArriveFlightError : BusinessError

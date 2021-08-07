@@ -1,6 +1,8 @@
 package com.example.airline.flight.usecase.aircraft
 
 import com.example.airline.flight.domain.aircraft.AircraftInfoReceivedDomainEvent
+import com.example.airline.flight.usecase.aircraft.ReceiveInfoAircraftUseCaseError.InvalidCount
+import com.example.airline.flight.usecase.aircraft.ReceiveInfoAircraftUseCaseError.InvalidManufacturerError
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import io.kotest.matchers.collections.shouldContainExactly
@@ -63,7 +65,7 @@ internal class ReceiveInfoAircraftUseCaseTest {
                         manufacturer = "",
                         seatsCount = count().value)
                 )
-        result shouldBeLeft ReceiveInfoAircraftUseCaseError.InvalidManufacturerError
+        result shouldBeLeft InvalidManufacturerError
     }
 
 
@@ -75,6 +77,6 @@ internal class ReceiveInfoAircraftUseCaseTest {
                         manufacturer = manufacturer().value,
                         seatsCount = -1)
                 )
-        result shouldBeLeft ReceiveInfoAircraftUseCaseError.InvalidCount
+        result shouldBeLeft InvalidCount
     }
 }

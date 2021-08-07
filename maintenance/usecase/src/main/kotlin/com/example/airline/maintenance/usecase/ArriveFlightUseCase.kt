@@ -1,27 +1,34 @@
 package com.example.airline.maintenance.usecase
 
 import arrow.core.Either
-import arrow.core.flatMap
+import arrow.core.getOrHandle
+import arrow.core.left
 import arrow.core.rightIfNotNull
 import com.example.airline.common.types.common.Airport
+import com.example.airline.common.types.common.CreateAirportError
+import com.example.airline.maintenance.domain.ArriveFlightError
 import com.example.airline.maintenance.domain.FlightId
-import com.example.airline.maintenance.usecase.ArriveFlightError.FlightNotFound
-import com.example.airline.maintenance.usecase.ArriveFlightError.InvalidFlightState
-import java.time.Duration
+import com.example.airline.maintenance.domain.NonPositiveFlightIdError
+import com.example.airline.maintenance.usecase.ArriveFlightUseCaseError.*
 
+@Suppress("ReturnCount")
 class ArriveFlightUseCase(
         private val flightExtractor: FlightExtractor,
         private val flightPersister: FlightPersister
 ) : ArriveFlight {
-
-    override fun execute(flightId: FlightId, arrivalAirport: Airport, duration: Duration):
-            Either<ArriveFlightError, Unit> {
+    override fun execute(request: ArriveFlightRequest):
+            Either<ArriveFlightUseCaseError, Unit> {
+        val flightId = FlightId.from(request.id).getOrHandle { return it.toError().left() }
         return flightExtractor.getById(flightId)
                 .rightIfNotNull { FlightNotFound }
-                .flatMap { flight ->
-                    flight.arrive(arrivalAirport, duration).map {
-                        flightPersister.save(flight)
-                    }.mapLeft { InvalidFlightState }
+                .map { flight ->
+                    val airport = Airport.from(request.arrivalAirport).getOrHandle { return it.toError().left() }
+                    flight.arrive(airport, request.duration).getOrHandle { return it.toError().left() }
+                    flightPersister.save(flight)
                 }
     }
+
+    fun NonPositiveFlightIdError.toError() = FlightNotFound
+    fun CreateAirportError.toError() = AirportNotFound
+    fun ArriveFlightError.toError() = InvalidFlightState
 }
