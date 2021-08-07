@@ -31,11 +31,19 @@ dependencies {
 	// jackson
 	implementation(Libs.jackson_kotlin)
 
+	// arrow
+	implementation(Libs.arrow)
+
 	// spring
 	implementation(Libs.spring_boot_starter_web)
 
-	// tests
+	// test
+	testImplementation(Libs.kotest_junit)
+	testImplementation(Libs.kotest_arrow)
+	testImplementation(Libs.junit_engine)
+	testImplementation(Libs.junit_params)
 	testImplementation(Libs.spring_boot_starter_test) {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+	testImplementation(Libs.arch_unit)
 }
