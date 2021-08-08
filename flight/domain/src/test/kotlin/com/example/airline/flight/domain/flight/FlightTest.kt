@@ -34,8 +34,8 @@ class FlightTest {
                 arrivalAirport = arrivalAirport,
                 flightDate = flightDate,
                 aircraftId = aircraftId,
-                aircraftIsAvailableOnTime = aircraftIsAvailableOnTime,
-                airportAllowsFlightOnTime = airportAllowsFlightOnTime
+                aircraftIsAvailable = aircraftIsAvailableOnTime,
+                airportAllowsFlight = airportAllowsFlightOnTime
         )
 
         result shouldBeRight {
@@ -56,8 +56,8 @@ class FlightTest {
                 arrivalAirport = airport(),
                 flightDate = OffsetDateTime.now(),
                 aircraftId = aircraftId(),
-                aircraftIsAvailableOnTime = TestAircraftIsAvailableOnTime(false),
-                airportAllowsFlightOnTime = TestAirportAllowsFlightOnTime(true)
+                aircraftIsAvailable = TestAircraftIsAvailableOnTime(false),
+                airportAllowsFlight = TestAirportAllowsFlightOnTime(true)
         )
 
         result shouldBeLeft AircraftIsNotAvailableOnTime
@@ -70,8 +70,8 @@ class FlightTest {
                 arrivalAirport = airport(),
                 flightDate = OffsetDateTime.now(),
                 aircraftId = aircraftId(),
-                aircraftIsAvailableOnTime = TestAircraftIsAvailableOnTime(true),
-                airportAllowsFlightOnTime = TestAirportAllowsFlightOnTime(false)
+                aircraftIsAvailable = TestAircraftIsAvailableOnTime(true),
+                airportAllowsFlight = TestAirportAllowsFlightOnTime(false)
         )
 
         result shouldBeLeft AirportNotAllowFlightOnTime
