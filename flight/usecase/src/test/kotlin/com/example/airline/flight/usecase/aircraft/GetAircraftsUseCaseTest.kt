@@ -1,5 +1,7 @@
 package com.example.airline.flight.usecase.aircraft
 
+import com.example.airline.flight.usecase.TestAircraftExtractor
+import com.example.airline.flight.usecase.aircraft
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import org.junit.jupiter.api.Test

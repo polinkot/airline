@@ -11,36 +11,21 @@ class RegisterFlightRequestTest {
         val id = flightId()
         val departureAirport = airport()
 
-        val result = RegisterFlightRequest.from(
-                id = id.value,
-                departureAirport = departureAirport.value
-        )
+        val result = RegisterFlightRequest.from(id = id.value, departureAirport = departureAirport.value)
 
         result shouldBeRight RegisterFlightRequest(id, departureAirport)
     }
 
     @Test
     fun `invalid id`() {
-        val id = -1L
-        val departureAirport = airport()
-
-        val result = RegisterFlightRequest.from(
-                id = id,
-                departureAirport = departureAirport.value
-        )
+        val result = RegisterFlightRequest.from(id = -1L, departureAirport = airport().value)
 
         result shouldBeLeft InvalidFlightParameters("Non positive flight id")
     }
 
     @Test
     fun `invalid departureAirport`() {
-        val id = flightId()
-        val departureAirport = ""
-
-        val result = RegisterFlightRequest.from(
-                id = id.value,
-                departureAirport = departureAirport
-        )
+        val result = RegisterFlightRequest.from(id = flightId().value, departureAirport = "")
 
         result shouldBeLeft InvalidFlightParameters("Empty departure airport")
     }

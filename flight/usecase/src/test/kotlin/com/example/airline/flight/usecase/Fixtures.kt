@@ -1,18 +1,21 @@
-package com.example.airline.flight.usecase.aircraft
+package com.example.airline.flight.usecase
 
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
+import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.common.Count
 import com.example.airline.common.types.common.Manufacturer
 import com.example.airline.flight.domain.aircraft.Aircraft
 import com.example.airline.flight.domain.aircraft.AircraftId
 import com.example.airline.flight.domain.aircraft.AircraftRestorer
+import com.example.airline.flight.usecase.aircraft.AircraftExtractor
+import com.example.airline.flight.usecase.aircraft.AircraftPersister
 import java.util.*
 import kotlin.random.Random
 
 fun version() = Version.new()
 
-fun aircraftId() = AircraftId(Random.nextLong())
+fun aircraftId() = AircraftId(Random.nextLong(1, 5000))
 
 fun aircraft(
 ): Aircraft {
@@ -33,6 +36,12 @@ fun manufacturer(): Manufacturer {
 fun count(value: Int = Random.nextInt(20, 5000)): Count {
     val result = Count.from(value)
     check(result is Either.Right<Count>)
+    return result.b
+}
+
+fun airport(): Airport {
+    val result = Airport.from("Airport ${Random.nextInt()}")
+    check(result is Either.Right<Airport>)
     return result.b
 }
 
