@@ -2,6 +2,7 @@ package com.example.airline.flight.usecase.flight
 
 import com.example.airline.flight.usecase.aircraftId
 import com.example.airline.flight.usecase.airport
+import com.example.airline.flight.usecase.flightDate
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
 import org.junit.jupiter.api.Test
@@ -13,7 +14,7 @@ class CreateFlightRequestTest {
     fun `successfully created`() {
         val departureAirport = airport()
         val arrivalAirport = airport()
-        val flightDate = OffsetDateTime.now()
+        val flightDate = flightDate()
         val aircraftId = aircraftId()
 
         val result = CreateFlightRequest.from(
@@ -31,7 +32,7 @@ class CreateFlightRequestTest {
         val result = CreateFlightRequest.from(
                 departureAirport = "",
                 arrivalAirport = airport().value,
-                flightDate = OffsetDateTime.now(),
+                flightDate = flightDate(),
                 aircraftId = aircraftId().value
         )
 

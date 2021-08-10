@@ -8,7 +8,7 @@ import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
-fun aircraftId() = AircraftId(Random.nextLong())
+fun aircraftId() = AircraftId(Random.nextLong(1, 5000))
 
 fun aircraft(
 ): Aircraft {
