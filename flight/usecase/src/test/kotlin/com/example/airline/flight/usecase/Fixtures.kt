@@ -10,8 +10,10 @@ import com.example.airline.flight.domain.aircraft.AircraftId
 import com.example.airline.flight.domain.aircraft.AircraftRestorer
 import com.example.airline.flight.domain.flight.Flight
 import com.example.airline.flight.domain.flight.FlightId
+import com.example.airline.flight.domain.flight.FlightRestorer
 import com.example.airline.flight.usecase.aircraft.AircraftExtractor
 import com.example.airline.flight.usecase.aircraft.AircraftPersister
+import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
 import java.time.OffsetDateTime
 import java.util.*
@@ -55,6 +57,17 @@ fun flightDate(): OffsetDateTime {
     return OffsetDateTime.now()
 }
 
+fun flight(): Flight {
+    return FlightRestorer.restore(
+            id = flightId(),
+            departureAirport = airport(),
+            arrivalAirport = airport(),
+            flightDate = flightDate(),
+            aircraftId = aircraftId(),
+            version = version()
+    )
+}
+
 class TestAircraftPersister : HashMap<AircraftId, Aircraft>(), AircraftPersister {
     override fun save(aircraft: Aircraft) {
         this[aircraft.id] = aircraft
@@ -70,5 +83,15 @@ class TestAircraftExtractor : AircraftExtractor, LinkedHashMap<AircraftId, Aircr
 class TestFlightPersister : HashMap<FlightId, Flight>(), FlightPersister {
     override fun save(flight: Flight) {
         this[flight.id] = flight
+    }
+}
+
+class TestFlightExtractor : FlightExtractor, LinkedHashMap<FlightId, Flight>() {
+    override fun getById(id: FlightId) = this[id]
+
+    override fun getAll() = values.toList()
+
+    override fun getByAircraftId(aircraftId: AircraftId): List<Flight> {
+        return this.values.filter { it.aircraftId == aircraftId }
     }
 }
