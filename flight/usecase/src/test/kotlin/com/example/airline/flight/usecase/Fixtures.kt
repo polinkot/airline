@@ -11,18 +11,21 @@ import com.example.airline.flight.domain.aircraft.AircraftRestorer
 import com.example.airline.flight.domain.flight.Flight
 import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.flight.FlightRestorer
+import com.example.airline.flight.domain.ticket.Price
+import com.example.airline.flight.domain.ticket.Ticket
+import com.example.airline.flight.domain.ticket.TicketId
 import com.example.airline.flight.usecase.aircraft.AircraftExtractor
 import com.example.airline.flight.usecase.aircraft.AircraftPersister
 import com.example.airline.flight.usecase.flight.AirportIntegrationService
 import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
+import com.example.airline.flight.usecase.ticket.TicketPersister
+import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
 fun version() = Version.new()
-
-fun flightId() = FlightId(Random.nextLong(1, 5000))
 
 fun aircraftId() = AircraftId(Random.nextLong(1, 5000))
 
@@ -58,6 +61,8 @@ fun flightDate(): OffsetDateTime {
     return OffsetDateTime.now()
 }
 
+fun flightId() = FlightId(Random.nextLong(1, 5000))
+
 fun flight(): Flight {
     return FlightRestorer.restore(
             id = flightId(),
@@ -67,6 +72,14 @@ fun flight(): Flight {
             aircraftId = aircraftId(),
             version = version()
     )
+}
+
+fun ticketId() = TicketId(Random.nextLong(1, 5000))
+
+fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
+    val result = Price.from(value)
+    check(result is Either.Right<Price>)
+    return result.b
 }
 
 class TestAircraftPersister : HashMap<AircraftId, Aircraft>(), AircraftPersister {
@@ -102,5 +115,11 @@ class TestAirportIntegrationService(
 ) : AirportIntegrationService {
     override fun checkTime(datetime: OffsetDateTime): Boolean {
         return stub
+    }
+}
+
+class TestTicketPersister : HashMap<TicketId, Ticket>(), TicketPersister {
+    override fun save(ticket: Ticket) {
+        this[ticket.id] = ticket
     }
 }

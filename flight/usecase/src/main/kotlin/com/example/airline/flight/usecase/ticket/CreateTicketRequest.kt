@@ -20,7 +20,7 @@ data class CreateTicketRequest internal constructor(
         ): Either<InvalidTicketParameters, CreateTicketRequest> {
             return tupled(
                     if (flightId <= 0) {
-                        InvalidTicketParameters("Non positive flightId id").left()
+                        InvalidTicketParameters("Non positive flight id").left()
                     } else {
                         FlightId(flightId).right()
                     },
