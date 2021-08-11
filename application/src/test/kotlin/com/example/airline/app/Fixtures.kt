@@ -2,14 +2,19 @@ package com.example.airline.app
 
 import arrow.core.Either
 import com.example.airline.common.types.base.Version
+import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.common.Manufacturer
+import com.example.airline.flight.domain.flight.Flight
+import com.example.airline.flight.domain.flight.FlightId
+import com.example.airline.flight.domain.flight.FlightRestorer
+import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.leasing.domain.aircraft.*
 import com.example.airline.leasing.usecase.aircraft.AircraftExtractor
 import java.time.OffsetDateTime
 import java.util.*
 import kotlin.random.Random
 
-fun aircraftId() = AircraftId(Random.nextLong())
+fun aircraftId() = AircraftId(Random.nextLong(1, 5000))
 
 fun aircraft(
 ): Aircraft {
@@ -72,4 +77,45 @@ class TestAircraftExtractor : AircraftExtractor, LinkedHashMap<AircraftId, Aircr
     override fun getById(id: AircraftId) = this[id]
 
     override fun getAll() = values.toList()
+}
+
+fun flightId() = FlightId(Random.nextLong(1, 5000))
+
+fun flightAircraftId() = com.example.airline.flight.domain.aircraft.AircraftId(Random.nextLong(1, 5000))
+
+fun maintenanceFlightId(value: Long = Random.nextLong(20, 5000)): com.example.airline.maintenance.domain.FlightId {
+    val result = com.example.airline.maintenance.domain.FlightId.from(value)
+    check(result is Either.Right<com.example.airline.maintenance.domain.FlightId>)
+    return result.b
+}
+
+fun airport(): Airport {
+    val result = Airport.from("Airport ${Random.nextInt()}")
+    check(result is Either.Right<Airport>)
+    return result.b
+}
+
+fun flightDate(): OffsetDateTime {
+    return OffsetDateTime.now()
+}
+
+fun flight(): Flight {
+    return FlightRestorer.restore(
+            id = flightId(),
+            departureAirport = airport(),
+            arrivalAirport = airport(),
+            flightDate = flightDate(),
+            aircraftId = flightAircraftId(),
+            version = version()
+    )
+}
+
+class TestFlightExtractor : FlightExtractor, LinkedHashMap<FlightId, Flight>() {
+    override fun getById(id: FlightId) = this[id]
+
+    override fun getAll() = values.toList()
+
+    override fun getByAircraftId(aircraftId: com.example.airline.flight.domain.aircraft.AircraftId): List<Flight> {
+        return this.values.filter { it.aircraftId == aircraftId }
+    }
 }
