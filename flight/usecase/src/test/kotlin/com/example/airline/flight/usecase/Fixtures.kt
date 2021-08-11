@@ -14,11 +14,13 @@ import com.example.airline.flight.domain.flight.FlightRestorer
 import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.Ticket
 import com.example.airline.flight.domain.ticket.TicketId
+import com.example.airline.flight.domain.ticket.TicketRestorer
 import com.example.airline.flight.usecase.aircraft.AircraftExtractor
 import com.example.airline.flight.usecase.aircraft.AircraftPersister
 import com.example.airline.flight.usecase.flight.AirportIntegrationService
 import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
+import com.example.airline.flight.usecase.ticket.TicketExtractor
 import com.example.airline.flight.usecase.ticket.TicketPersister
 import java.math.BigDecimal
 import java.time.OffsetDateTime
@@ -82,6 +84,15 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     return result.b
 }
 
+fun ticket(): Ticket {
+    return TicketRestorer.restore(
+            id = ticketId(),
+            flightId = flightId(),
+            price = price(),
+            version = version()
+    )
+}
+
 class TestAircraftPersister : HashMap<AircraftId, Aircraft>(), AircraftPersister {
     override fun save(aircraft: Aircraft) {
         this[aircraft.id] = aircraft
@@ -122,4 +133,10 @@ class TestTicketPersister : HashMap<TicketId, Ticket>(), TicketPersister {
     override fun save(ticket: Ticket) {
         this[ticket.id] = ticket
     }
+}
+
+class TestTicketExtractor : TicketExtractor, LinkedHashMap<TicketId, Ticket>() {
+    override fun getById(id: TicketId) = this[id]
+
+    override fun getAll() = values.toList()
 }

@@ -16,18 +16,18 @@ class TicketRestorerTest {
         val price = price()
         val version = version()
 
-        val flight = TicketRestorer.restore(
+        val ticket = TicketRestorer.restore(
                 id = id,
                 flightId = flightId,
                 price = price,
                 version = version
         )
 
-        flight.id shouldBe id
-        flight.flightId shouldBe flightId
-        flight.price shouldBe price
-        flight.version shouldBe version
+        ticket.id shouldBe id
+        ticket.flightId shouldBe flightId
+        ticket.price shouldBe price
+        ticket.version shouldBe version
 
-        flight.popEvents().shouldBeEmpty()
+        ticket.popEvents().shouldBeEmpty()
     }
 }
