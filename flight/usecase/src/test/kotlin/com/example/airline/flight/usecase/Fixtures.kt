@@ -13,6 +13,7 @@ import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.flight.FlightRestorer
 import com.example.airline.flight.usecase.aircraft.AircraftExtractor
 import com.example.airline.flight.usecase.aircraft.AircraftPersister
+import com.example.airline.flight.usecase.flight.AirportIntegrationService
 import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
 import java.time.OffsetDateTime
@@ -93,5 +94,13 @@ class TestFlightExtractor : FlightExtractor, LinkedHashMap<FlightId, Flight>() {
 
     override fun getByAircraftId(aircraftId: AircraftId): List<Flight> {
         return this.values.filter { it.aircraftId == aircraftId }
+    }
+}
+
+class TestAirportIntegrationService(
+        val stub: Boolean
+) : AirportIntegrationService {
+    override fun checkTime(datetime: OffsetDateTime): Boolean {
+        return stub
     }
 }
