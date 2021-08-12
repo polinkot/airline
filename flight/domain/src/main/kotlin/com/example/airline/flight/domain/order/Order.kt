@@ -19,9 +19,9 @@ class Order internal constructor(
         val created: OffsetDateTime,
         val email: Email,
         val orderItems: Set<OrderItem>,
-        val price: Price,
         version: Version
 ) : AggregateRoot<OrderId>(id, version) {
+    var price: Price = Price.zero()
 
     var state: OrderState = CREATED
         internal set
@@ -32,7 +32,7 @@ class Order internal constructor(
                 ticketsAvailable: TicketsAvailable,
                 email: Email,
                 orderItems: Set<OrderItem>,
-                priceProvider: OrderPriceProvider
+                priceProvider: TicketPriceProvider
         ): Either<OrderCreationError, Order> {
             if (orderItems.isEmpty()) {
                 return NoTicketsError.left()
@@ -48,9 +48,9 @@ class Order internal constructor(
                     created = OffsetDateTime.now(),
                     email = email,
                     orderItems = orderItems,
-                    price = priceProvider.getPrice(ticketIds),
                     version = Version.new()
             ).apply {
+                price = ticketIds.map { priceProvider.getPrice(it) }.reduce { sum, price -> sum.add(price) }
                 addEvent(OrderCreatedDomainEvent(id))
             }.right()
         }

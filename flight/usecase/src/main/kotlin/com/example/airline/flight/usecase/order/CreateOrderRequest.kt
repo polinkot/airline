@@ -7,25 +7,20 @@ import arrow.core.right
 import com.example.airline.common.types.common.CreateEmailError
 import com.example.airline.common.types.common.Email
 import com.example.airline.flight.domain.order.*
-import com.example.airline.flight.domain.ticket.CreatePriceError
-import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.TicketId
-import java.math.BigDecimal
-import java.time.OffsetDateTime
 
 data class CreateOrderRequest internal constructor(
-        val created: OffsetDateTime,
         val email: Email,
-        val orderItems: Set<OrderItem>,
-        val price: Price
+        val orderItems: Set<OrderItem>
 ) {
     companion object {
         fun from(
-                created: OffsetDateTime,
                 email: String,
-                items: Set<OrderItemData>,
-                price: BigDecimal
+                items: Set<OrderItemData>
         ): Either<InvalidOrderParameters, CreateOrderRequest> {
+            if (items.isNullOrEmpty()) {
+                return InvalidOrderParameters("Empty order").left()
+            }
 
             val orderItems = items.map {
                 tupled(
@@ -42,12 +37,8 @@ data class CreateOrderRequest internal constructor(
             }.mapNotNull { it.orNull() }
                     .toSet()
 
-            return tupled(
-                    Email.from(email).mapLeft { it.toError() },
-                    Price.from(price).mapLeft { it.toError() },
-            ).map { params ->
-                CreateOrderRequest(created, params.a, orderItems, params.b)
-            }
+            return Email.from(email).mapLeft { it.toError() }
+                    .map { CreateOrderRequest(it, orderItems) }
         }
     }
 }
@@ -59,4 +50,3 @@ data class InvalidOrderParameters(val message: String)
 fun CreateFullNameError.toError() = InvalidOrderParameters("Empty full name")
 fun CreatePassportError.toError() = InvalidOrderParameters("Empty passport")
 fun CreateEmailError.toError() = InvalidOrderParameters("Invalid email")
-fun CreatePriceError.toError() = InvalidOrderParameters("Invalid price")

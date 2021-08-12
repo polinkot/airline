@@ -10,7 +10,7 @@ import com.example.airline.flight.usecase.order.CreateOrderUseCaseError.TicketsN
 class CreateOrderUseCase(
         private val persister: OrderPersister,
         private val idGenerator: OrderIdGenerator,
-        private val priceProvider: OrderPriceProvider,
+        private val priceProvider: TicketPriceProvider,
         private val ticketsAvailable: TicketsAvailable,
         private val paymentUrlProvider: PaymentUrlProvider,
 ) : CreateOrder {

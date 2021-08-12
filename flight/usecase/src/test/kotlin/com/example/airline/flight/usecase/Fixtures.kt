@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Airport
 import com.example.airline.common.types.common.Count
+import com.example.airline.common.types.common.Email
 import com.example.airline.common.types.common.Manufacturer
 import com.example.airline.flight.domain.aircraft.Aircraft
 import com.example.airline.flight.domain.aircraft.AircraftId
@@ -11,6 +12,7 @@ import com.example.airline.flight.domain.aircraft.AircraftRestorer
 import com.example.airline.flight.domain.flight.Flight
 import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.flight.FlightRestorer
+import com.example.airline.flight.domain.order.*
 import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.Ticket
 import com.example.airline.flight.domain.ticket.TicketId
@@ -20,6 +22,7 @@ import com.example.airline.flight.usecase.aircraft.AircraftPersister
 import com.example.airline.flight.usecase.flight.AirportIntegrationService
 import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
+import com.example.airline.flight.usecase.order.OrderPersister
 import com.example.airline.flight.usecase.ticket.TicketExtractor
 import com.example.airline.flight.usecase.ticket.TicketPersister
 import java.math.BigDecimal
@@ -92,6 +95,34 @@ fun ticket(flightId: FlightId = flightId()): Ticket {
     )
 }
 
+fun email(): Email {
+    val result = Email.from("Email${Random.nextInt()}@mail.ru")
+    check(result is Either.Right<Email>)
+    return result.b
+}
+
+fun fullName(): FullName {
+    val result = FullName.from("FullName ${Random.nextInt()}")
+    check(result is Either.Right<FullName>)
+    return result.b
+}
+
+fun passport(): Passport {
+    val result = Passport.from("Passport${Random.nextInt()}")
+    check(result is Either.Right<Passport>)
+    return result.b
+}
+
+fun orderItems(): Set<OrderItem> {
+    return setOf(
+            OrderItem.from(ticketId(), fullName(), passport()),
+            OrderItem.from(ticketId(), fullName(), passport()),
+            OrderItem.from(ticketId(), fullName(), passport())
+    )
+}
+
+fun orderId() = OrderId(Random.nextLong(1, 1000))
+
 class TestAircraftPersister : HashMap<AircraftId, Aircraft>(), AircraftPersister {
     override fun save(aircraft: Aircraft) {
         this[aircraft.id] = aircraft
@@ -134,7 +165,7 @@ class TestTicketPersister : HashMap<TicketId, Ticket>(), TicketPersister {
     }
 }
 
-class TestTicketExtractor( val stubSoldOutCount: Int = 1) : TicketExtractor, LinkedHashMap<TicketId, Ticket>() {
+class TestTicketExtractor(val stubSoldOutCount: Int = 1) : TicketExtractor, LinkedHashMap<TicketId, Ticket>() {
     override fun getById(id: TicketId) = this[id]
 
     override fun getByIds(ids: Set<TicketId>): Set<Ticket> {
@@ -145,5 +176,11 @@ class TestTicketExtractor( val stubSoldOutCount: Int = 1) : TicketExtractor, Lin
 
     override fun getSoldOutByFlightId(flightId: FlightId): List<Ticket> {
         return this.values.filter { it.flightId == flightId }.subList(0, stubSoldOutCount)
+    }
+}
+
+class TestOrderPersister : HashMap<OrderId, Order>(), OrderPersister {
+    override fun save(order: Order) {
+        this[order.id] = order
     }
 }
