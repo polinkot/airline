@@ -56,13 +56,14 @@ class Order internal constructor(
         }
     }
 
-    fun pay() {
+    fun pay(): Either<InvalidState, Unit> {
         if (!state.canChangeTo(PAID)) {
-            return
+            return InvalidState.left()
         }
 
         state = PAID
         addEvent(OrderPaidDomainEvent(id))
+        return Unit.right()
     }
 }
 
@@ -79,3 +80,5 @@ sealed class OrderCreationError : BusinessError {
     object NoTicketsError : OrderCreationError()
     object TicketsNotAvailableError : OrderCreationError()
 }
+
+object InvalidState : BusinessError

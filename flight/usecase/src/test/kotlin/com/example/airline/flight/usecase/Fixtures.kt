@@ -13,6 +13,8 @@ import com.example.airline.flight.domain.flight.Flight
 import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.flight.FlightRestorer
 import com.example.airline.flight.domain.order.*
+import com.example.airline.flight.domain.order.OrderState.CREATED
+import com.example.airline.flight.domain.order.OrderState.PAID
 import com.example.airline.flight.domain.ticket.Price
 import com.example.airline.flight.domain.ticket.Ticket
 import com.example.airline.flight.domain.ticket.TicketId
@@ -22,6 +24,7 @@ import com.example.airline.flight.usecase.aircraft.AircraftPersister
 import com.example.airline.flight.usecase.flight.AirportIntegrationService
 import com.example.airline.flight.usecase.flight.FlightExtractor
 import com.example.airline.flight.usecase.flight.FlightPersister
+import com.example.airline.flight.usecase.order.OrderExtractor
 import com.example.airline.flight.usecase.order.OrderPersister
 import com.example.airline.flight.usecase.ticket.TicketExtractor
 import com.example.airline.flight.usecase.ticket.TicketPersister
@@ -123,6 +126,25 @@ fun orderItems(): Set<OrderItem> {
 
 fun orderId() = OrderId(Random.nextLong(1, 1000))
 
+fun order(
+        state: OrderState = CREATED,
+        orderItems: Set<OrderItem> = orderItems(),
+): Order {
+    return OrderRestorer.restore(
+            id = orderId(),
+            created = OffsetDateTime.now(),
+            email = email(),
+            orderItems = orderItems,
+            price = price(),
+            state = state,
+            version = version()
+    )
+}
+
+fun orderReadyForPay() = order(state = CREATED)
+
+fun orderNotReadyForPay() = order(state = PAID)
+
 class TestAircraftPersister : HashMap<AircraftId, Aircraft>(), AircraftPersister {
     override fun save(aircraft: Aircraft) {
         this[aircraft.id] = aircraft
@@ -183,4 +205,10 @@ class TestOrderPersister : HashMap<OrderId, Order>(), OrderPersister {
     override fun save(order: Order) {
         this[order.id] = order
     }
+}
+
+class TestOrderExtractor : OrderExtractor, LinkedHashMap<OrderId, Order>() {
+    override fun getById(id: OrderId) = this[id]
+
+    override fun getAll() = values.toList()
 }
