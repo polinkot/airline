@@ -24,6 +24,8 @@ dependencies {
 	implementation(project(":maintenance:persistence"))
 	implementation(project(":maintenance:web"))
 
+	implementation(project(":integration:payment"))
+
 	// kotlin
 	implementation(kotlin("stdlib-jdk8"))
 	implementation(Libs.kotlin_reflect)

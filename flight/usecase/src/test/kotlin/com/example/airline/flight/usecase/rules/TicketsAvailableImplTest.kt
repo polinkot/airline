@@ -48,7 +48,7 @@ internal class TicketsAvailableImplTest {
     }
 
     @Test
-    fun `tickets not available - sold out`() {
+    fun `tickets not available`() {
         val aircraft = aircraft(Count(3))
 
         val flight = flight(aircraftId = aircraft.id)
