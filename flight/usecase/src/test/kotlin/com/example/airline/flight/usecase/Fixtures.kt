@@ -31,12 +31,11 @@ fun version() = Version.new()
 
 fun aircraftId() = AircraftId(Random.nextLong(1, 5000))
 
-fun aircraft(
-): Aircraft {
+fun aircraft(seatsCount: Count = count()): Aircraft {
     return AircraftRestorer.restore(
             id = aircraftId(),
             manufacturer = manufacturer(),
-            seatsCount = count(),
+            seatsCount = seatsCount,
             version = version()
     )
 }
@@ -65,13 +64,13 @@ fun flightDate(): OffsetDateTime {
 
 fun flightId() = FlightId(Random.nextLong(1, 5000))
 
-fun flight(): Flight {
+fun flight(flightDate: OffsetDateTime = flightDate(), aircraftId: AircraftId = aircraftId()): Flight {
     return FlightRestorer.restore(
             id = flightId(),
             departureAirport = airport(),
             arrivalAirport = airport(),
-            flightDate = flightDate(),
-            aircraftId = aircraftId(),
+            flightDate = flightDate,
+            aircraftId = aircraftId,
             version = version()
     )
 }
@@ -84,10 +83,10 @@ fun price(value: BigDecimal = BigDecimal(Random.nextInt(1, 500000))): Price {
     return result.b
 }
 
-fun ticket(): Ticket {
+fun ticket(flightId: FlightId = flightId()): Ticket {
     return TicketRestorer.restore(
             id = ticketId(),
-            flightId = flightId(),
+            flightId = flightId,
             price = price(),
             version = version()
     )
@@ -135,8 +134,16 @@ class TestTicketPersister : HashMap<TicketId, Ticket>(), TicketPersister {
     }
 }
 
-class TestTicketExtractor : TicketExtractor, LinkedHashMap<TicketId, Ticket>() {
+class TestTicketExtractor( val stubSoldOutCount: Int = 1) : TicketExtractor, LinkedHashMap<TicketId, Ticket>() {
     override fun getById(id: TicketId) = this[id]
 
+    override fun getByIds(ids: Set<TicketId>): Set<Ticket> {
+        return this.values.filter { ids.contains(it.id) }.toSet()
+    }
+
     override fun getAll() = values.toList()
+
+    override fun getSoldOutByFlightId(flightId: FlightId): List<Ticket> {
+        return this.values.filter { it.flightId == flightId }.subList(0, stubSoldOutCount)
+    }
 }
