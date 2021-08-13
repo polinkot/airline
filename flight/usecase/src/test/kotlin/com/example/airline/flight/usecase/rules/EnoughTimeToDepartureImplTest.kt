@@ -8,38 +8,38 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
 
-internal class MoreThanHourTillDepartureImplTest {
+internal class EnoughTimeToDepartureImplTest {
 
     @Test
-    fun `more than hour till departure`() {
+    fun `enough time to departure`() {
         val flight = flight(OffsetDateTime.now().plusDays(1))
         val extractor = TestFlightExtractor().apply {
             this[flight.id] = flight
         }
-        val rule = MoreThanHourTillDepartureImpl(extractor)
+        val rule = EnoughTimeToDepartureImpl(extractor)
 
-        val isMore = rule.check(flight.id)
-        isMore.shouldBeTrue()
+        val isEnough = rule.check(flight.id, 1L)
+        isEnough.shouldBeTrue()
     }
 
     @Test
-    fun `less than hour till departure`() {
+    fun `not enough time to departure`() {
         val flight = flight()
         val extractor = TestFlightExtractor().apply {
             this[flight.id] = flight
         }
-        val rule = MoreThanHourTillDepartureImpl(extractor)
+        val rule = EnoughTimeToDepartureImpl(extractor)
 
-        val isMore = rule.check(flight.id)
-        isMore.shouldBeFalse()
+        val isEnough = rule.check(flight.id, 1L)
+        isEnough.shouldBeFalse()
     }
 
     @Test
     fun `when no flights`() {
         val extractor = TestFlightExtractor()
-        val rule = MoreThanHourTillDepartureImpl(extractor)
+        val rule = EnoughTimeToDepartureImpl(extractor)
 
-        val isMore = rule.check(flightId())
-        isMore.shouldBeFalse()
+        val isEnough = rule.check(flightId(), 1L)
+        isEnough.shouldBeFalse()
     }
 }

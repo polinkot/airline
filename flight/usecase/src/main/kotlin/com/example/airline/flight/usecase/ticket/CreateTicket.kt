@@ -9,5 +9,5 @@ interface CreateTicket {
 
 sealed class CreateTicketUseCaseError(open val message: String) {
     object FlightIsNotAnnouncedUseCaseError : CreateTicketUseCaseError("Flight is not announced")
-    object LessThanHourTillDepartureUseCaseError : CreateTicketUseCaseError("Less than hour till departure")
+    object NotEnoughTimeToDepartureUseCaseError : CreateTicketUseCaseError("Not enough time to departure")
 }

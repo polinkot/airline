@@ -1,14 +1,14 @@
 package com.example.airline.flight.usecase.ticket
 
 import com.example.airline.flight.domain.flight.FlightId
+import com.example.airline.flight.domain.ticket.EnoughTimeToDeparture
 import com.example.airline.flight.domain.ticket.FlightIsAnnounced
-import com.example.airline.flight.domain.ticket.MoreThanHourTillDeparture
 import com.example.airline.flight.domain.ticket.TicketIdGenerator
 import com.example.airline.flight.usecase.TestTicketPersister
 import com.example.airline.flight.usecase.flightId
 import com.example.airline.flight.usecase.price
 import com.example.airline.flight.usecase.ticket.CreateTicketUseCaseError.FlightIsNotAnnouncedUseCaseError
-import com.example.airline.flight.usecase.ticket.CreateTicketUseCaseError.LessThanHourTillDepartureUseCaseError
+import com.example.airline.flight.usecase.ticket.CreateTicketUseCaseError.NotEnoughTimeToDepartureUseCaseError
 import com.example.airline.flight.usecase.ticketId
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
@@ -30,7 +30,7 @@ internal class CreateTicketUseCaseTest {
                 persister = persister,
                 idGenerator = TestTicketIdGenerator,
                 flightIsAnnounced = FlightIsAnnouncedTrue,
-                moreThanHourTillDeparture = MoreThanHourTillDepartureTrue
+                enoughTimeToDeparture = EnoughTimeToDepartureTrue
         ).execute(
                 CreateTicketRequest(flightId = flightId, price = price)
         )
@@ -57,7 +57,7 @@ internal class CreateTicketUseCaseTest {
                 persister = persister,
                 idGenerator = TestTicketIdGenerator,
                 flightIsAnnounced = FlightIsAnnouncedFalse,
-                moreThanHourTillDeparture = MoreThanHourTillDepartureTrue
+                enoughTimeToDeparture = EnoughTimeToDepartureTrue
         ).execute(
                 CreateTicketRequest(flightId = flightId(), price = price())
         )
@@ -67,19 +67,19 @@ internal class CreateTicketUseCaseTest {
     }
 
     @Test
-    fun `less than hour till departure`() {
+    fun `not enough time to departure`() {
         val persister = TestTicketPersister()
 
         val result = CreateTicketUseCase(
                 persister = persister,
                 idGenerator = TestTicketIdGenerator,
                 flightIsAnnounced = FlightIsAnnouncedTrue,
-                moreThanHourTillDeparture = MoreThanHourTillDepartureFalse
+                enoughTimeToDeparture = EnoughTimeToDepartureFalse
         ).execute(
                 CreateTicketRequest(flightId = flightId(), price = price())
         )
 
-        result shouldBeLeft LessThanHourTillDepartureUseCaseError
+        result shouldBeLeft NotEnoughTimeToDepartureUseCaseError
         persister.shouldBeEmpty()
     }
 
@@ -96,11 +96,11 @@ internal class CreateTicketUseCaseTest {
         override fun check(flightId: FlightId) = false
     }
 
-    object MoreThanHourTillDepartureTrue : MoreThanHourTillDeparture {
-        override fun check(flightId: FlightId) = true
+    object EnoughTimeToDepartureTrue : EnoughTimeToDeparture {
+        override fun check(flightId: FlightId, hours: Long) = true
     }
 
-    object MoreThanHourTillDepartureFalse : MoreThanHourTillDeparture {
-        override fun check(flightId: FlightId) = false
+    object EnoughTimeToDepartureFalse : EnoughTimeToDeparture {
+        override fun check(flightId: FlightId, hours: Long) = false
     }
 }

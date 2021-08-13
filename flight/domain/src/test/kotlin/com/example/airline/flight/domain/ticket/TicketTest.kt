@@ -4,7 +4,7 @@ import com.example.airline.flight.domain.flight.FlightId
 import com.example.airline.flight.domain.flightId
 import com.example.airline.flight.domain.price
 import com.example.airline.flight.domain.ticket.TicketCreationError.FlightIsNotAnnounced
-import com.example.airline.flight.domain.ticket.TicketCreationError.LessThanHourTillDeparture
+import com.example.airline.flight.domain.ticket.TicketCreationError.NotEnoughTimeToDeparture
 import com.example.airline.flight.domain.ticketId
 import io.kotest.assertions.arrow.either.shouldBeLeft
 import io.kotest.assertions.arrow.either.shouldBeRight
@@ -24,13 +24,13 @@ class TicketTest {
         val flightId = flightId()
         val price = price()
         val flightIsAnnounced = TestFlightIsAnnounced(true)
-        val moreThanHourTillDeparture = TestMoreThanHourTillDeparture(true)
+        val enoughTimeToDeparture = TestEnoughTimeToDeparture(true)
 
         val result = Ticket.create(idGenerator = idGenerator,
                 flightId = flightId,
                 price = price,
                 flightIsAnnounced = flightIsAnnounced,
-                moreThanHourTillDeparture = moreThanHourTillDeparture
+                enoughTimeToDeparture = enoughTimeToDeparture
         )
 
         result shouldBeRight {
@@ -48,22 +48,22 @@ class TicketTest {
                 flightId = flightId(),
                 price = price(),
                 flightIsAnnounced = TestFlightIsAnnounced(false),
-                moreThanHourTillDeparture = TestMoreThanHourTillDeparture(true)
+                enoughTimeToDeparture = TestEnoughTimeToDeparture(true)
         )
 
         result shouldBeLeft FlightIsNotAnnounced
     }
 
     @Test
-    fun `create ticket - less than hour till departure`() {
+    fun `create ticket - not enough time to departure`() {
         val result = Ticket.create(idGenerator = idGenerator,
                 flightId = flightId(),
                 price = price(),
                 flightIsAnnounced = TestFlightIsAnnounced(true),
-                moreThanHourTillDeparture = TestMoreThanHourTillDeparture(false)
+                enoughTimeToDeparture = TestEnoughTimeToDeparture(false)
         )
 
-        result shouldBeLeft LessThanHourTillDeparture
+        result shouldBeLeft NotEnoughTimeToDeparture
     }
 
     class TestFlightIsAnnounced(val isAnnounced: Boolean) : FlightIsAnnounced {
@@ -72,9 +72,9 @@ class TicketTest {
         }
     }
 
-    class TestMoreThanHourTillDeparture(val isMoreThanHour: Boolean) : MoreThanHourTillDeparture {
-        override fun check(flightId: FlightId): Boolean {
-            return isMoreThanHour
+    class TestEnoughTimeToDeparture(val isEnough: Boolean) : EnoughTimeToDeparture {
+        override fun check(flightId: FlightId, hours: Long): Boolean {
+            return isEnough
         }
     }
 }
