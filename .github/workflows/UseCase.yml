@@ -25,9 +25,9 @@
 
 on:
   push:
-    branches: [UseCases]
+    branches: [UseCase]
 
-name: UseCases Deploy to Amazon
+name: UseCase Deploy to Amazon
 
 jobs:
   deploy:

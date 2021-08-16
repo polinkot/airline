@@ -34,7 +34,7 @@ class OrderTest {
                 ticketsAvailable = TestTicketsAvailable(true),
                 email = email,
                 orderItems = orderItems,
-                priceProvider = TestOrderPriceProvider(price)
+                priceProvider = TestTicketPriceProvider(price)
         )
 
         result shouldBeRight {
@@ -54,7 +54,7 @@ class OrderTest {
                 ticketsAvailable = TestTicketsAvailable(false),
                 email = email(),
                 orderItems = emptySet(),
-                priceProvider = TestOrderPriceProvider(price())
+                priceProvider = TestTicketPriceProvider(price())
         )
 
         result shouldBeLeft NoTicketsError
@@ -66,7 +66,7 @@ class OrderTest {
                 ticketsAvailable = TestTicketsAvailable(false),
                 email = email(),
                 orderItems = setOf(orderItem()),
-                priceProvider = TestOrderPriceProvider(price())
+                priceProvider = TestTicketPriceProvider(price())
         )
 
         result shouldBeLeft TicketsNotAvailableError
@@ -103,8 +103,8 @@ class OrderTest {
         }
     }
 
-    class TestOrderPriceProvider(private val price: Price) : OrderPriceProvider {
-        override fun getPrice(tickets: Set<TicketId>): Price {
+    class TestTicketPriceProvider(private val price: Price) : TicketPriceProvider {
+        override fun getPrice(ticketId: TicketId): Price {
             return price
         }
     }

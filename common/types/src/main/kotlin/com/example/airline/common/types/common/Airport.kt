@@ -7,7 +7,7 @@ import com.example.airline.common.types.base.ValueObject
 import com.example.airline.common.types.common.CreateAirportError.EmptyAirportCodeError
 
 data class Airport internal constructor(
-        val code: String
+        val value: String
 ) : ValueObject {
     companion object {
         fun from(code: String): Either<CreateAirportError, Airport> {

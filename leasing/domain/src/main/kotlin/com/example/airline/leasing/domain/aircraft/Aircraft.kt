@@ -1,8 +1,12 @@
 package com.example.airline.leasing.domain.aircraft
 
+import arrow.core.Either
+import arrow.core.left
+import arrow.core.right
 import com.example.airline.common.types.base.AggregateRoot
 import com.example.airline.common.types.base.Version
 import com.example.airline.common.types.common.Manufacturer
+import com.example.airline.common.types.error.BusinessError
 import java.time.OffsetDateTime
 
 @Suppress("LongParameterList")
@@ -25,7 +29,11 @@ class Aircraft internal constructor(
                    registrationNumber: AircraftRegistrationNumber,
                    contractNumber: AircraftContractNumber,
                    seats: Set<Seat>
-        ): Aircraft {
+        ): Either<EmptySeatMapError, Aircraft> {
+            if (seats.isNullOrEmpty()) {
+                return EmptySeatMapError.left()
+            }
+
             return Aircraft(
                     id = idGenerator.generate(),
                     manufacturer = manufacturer,
@@ -37,7 +45,9 @@ class Aircraft internal constructor(
                     version = Version.new()
             ).apply {
                 addEvent(AircraftCreatedDomainEvent(aircraftId = this.id))
-            }
+            }.right()
         }
     }
 }
+
+object EmptySeatMapError : BusinessError

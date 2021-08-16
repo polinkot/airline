@@ -10,7 +10,7 @@ import com.example.airline.common.types.error.BusinessError
  * Кресло в салоне. Ряд + место. Например 5B.
  */
 
-data class Seat internal constructor(val code: String) : ValueObject {
+data class Seat internal constructor(val value: String) : ValueObject {
     companion object {
         fun from(code: String): Either<EmptySeatError, Seat> =
                 if (code.isNotBlank()) {

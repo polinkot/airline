@@ -27,14 +27,14 @@ class Flight internal constructor(
                    arrivalAirport: Airport,
                    flightDate: OffsetDateTime,
                    aircraftId: AircraftId,
-                   aircraftIsAvailableOnTime: AircraftIsAvailableOnTime,
-                   airportAllowsFlightOnTime: AirportAllowsFlightOnTime
+                   aircraftIsAvailable: AircraftIsAvailableOnTime,
+                   airportAllowsFlight: AirportAllowsFlightOnTime
         ): Either<FlightAnnounceError, Flight> {
-            if (!aircraftIsAvailableOnTime.check(aircraftId, flightDate)) {
+            if (!aircraftIsAvailable.check(aircraftId, flightDate)) {
                 return AircraftIsNotAvailableOnTime.left()
             }
 
-            if (!airportAllowsFlightOnTime.check(flightDate)) {
+            if (!airportAllowsFlight.check(flightDate)) {
                 return AirportNotAllowFlightOnTime.left()
             }
 
