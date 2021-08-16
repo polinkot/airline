@@ -23,7 +23,6 @@ class TicketsAvailableImpl(private val ticketExtractor: TicketExtractor,
         }
 
         for ((flightId, requiredCount) in flightTickets) {
-            println("$flightId = $requiredCount")
             val totalSeatsCount = getTotalSeatsCount(flightId).value
             val soldCount = ticketExtractor.getSoldOutByFlightId(flightId).size
             if (soldCount + requiredCount > totalSeatsCount) {
